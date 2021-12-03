@@ -14,6 +14,9 @@
             className="visually-hidden"
             name="diameter"
             :value="getInputValueForDiameter(size.name)"
+            :checked="size.id === selectedSize.id"
+            :obj="size"
+            @updateSelected="updateSelectedSize"
           />
           <span>{{ size.name }}</span>
         </label>
@@ -22,7 +25,6 @@
   </div>
 </template>
 <script>
-import pizza from "@/static/pizza.json";
 import RadioButton from "@/common/components/RadioButton";
 
 export default {
@@ -30,10 +32,15 @@ export default {
   components: {
     RadioButton,
   },
-  data() {
-    return {
-      pizza,
-    };
+  props: {
+    pizza: {
+      type: Object,
+      required: true,
+    },
+    selectedSize: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     getClassNameForDiameter(diameter) {
@@ -59,6 +66,9 @@ export default {
         default:
           return "";
       }
+    },
+    updateSelectedSize(size) {
+      this.$emit("updateSelectedSize", size);
     },
   },
 };

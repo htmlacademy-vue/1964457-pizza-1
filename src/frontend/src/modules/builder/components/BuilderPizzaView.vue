@@ -16,7 +16,7 @@
             v-for="ingredient in ingredients"
             class="pizza__filling"
             :class="getClassName(ingredient)"
-            :key="ingredient"
+            :key="ingredient.id"
           ></div>
         </div>
       </div>
@@ -28,35 +28,22 @@
 
 <script>
 import BuilderPriceCounter from "./BuilderPriceCounter";
-import EventBus from "@/common/EventBus";
 
 export default {
   name: "BuilderPizzaView",
   components: {
     BuilderPriceCounter,
   },
-  data() {
-    return {
-      ingredients: [],
-    };
-  },
-  methods: {
-    getClassName(ingridientName) {
-      return "pizza__filling--" + ingridientName;
+  props: {
+    ingredients: {
+      type: Object,
+      required: true,
     },
   },
-  mounted() {
-    EventBus.$on("addIncredient", (ingredientName) => {
-      if (!this.ingredients.includes(ingredientName)) {
-        this.ingredients.push(ingredientName);
-      }
-    });
-    EventBus.$on("removeIncredient", (ingredientName) => {
-      const index = this.ingredients.indexOf(ingredientName);
-      if (index > -1) {
-        this.ingredients.splice(index, 1);
-      }
-    });
+  methods: {
+    getClassName(ingredient) {
+      return `pizza__filling--${ingredient.englishName}`;
+    },
   },
 };
 </script>

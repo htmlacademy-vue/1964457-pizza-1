@@ -19,35 +19,29 @@
 </template>
 
 <script>
-import EventBus from "@/common/EventBus";
-
 export default {
   name: "ItemCounter",
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
       counter: 0,
     };
   },
-  methods: {
-    increase() {
-      this.counter++;
-      if (this.counter == 1) {
-        EventBus.$emit("addIncredient", this.name);
-      }
+  props: {
+    obj: {
+      type: Object,
+      required: true,
     },
+  },
+  methods: {
     decrease() {
       if (this.counter > 0) {
         this.counter--;
+        this.$emit("decrease", this.obj);
       }
-      if (this.counter == 0) {
-        EventBus.$emit("removeIncredient", this.name);
-      }
+    },
+    increase() {
+      this.counter++;
+      this.$emit("increase", this.obj);
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <span class="filling" :class="className">{{ ingridientName }}</span>
+  <span class="filling" :class="className">{{ ingredientName }}</span>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
       default: "",
     },
 
-    ingridientName: {
+    ingredientName: {
       type: String,
       required: true,
     },

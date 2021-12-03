@@ -13,6 +13,9 @@
             className="visually-hidden"
             name="dough"
             :value="getInputValueForDough(dough.name)"
+            :checked="selectedDough.id === dough.id"
+            :obj="dough"
+            @updateSelected="updateSelectedDough"
           />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
@@ -23,7 +26,6 @@
 </template>
 
 <script>
-import pizza from "@/static/pizza.json";
 import RadioButton from "@/common/components/RadioButton";
 
 export default {
@@ -31,10 +33,15 @@ export default {
   components: {
     RadioButton,
   },
-  data() {
-    return {
-      pizza,
-    };
+  props: {
+    pizza: {
+      type: Object,
+      required: true,
+    },
+    selectedDough: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     getClassNameForDough(doughName) {
@@ -56,6 +63,9 @@ export default {
         default:
           return "";
       }
+    },
+    updateSelectedDough(dough) {
+      this.$emit("updateSelectedDough", dough);
     },
   },
 };

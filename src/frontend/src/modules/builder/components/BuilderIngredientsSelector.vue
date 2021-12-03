@@ -15,6 +15,9 @@
             <RadioButton
               name="sauce"
               :value="getInputValueForSauce(sauce.name)"
+              :checked="sauce.id === selectedSauce.id"
+              :obj="sauce"
+              @updateSelected="updateSelectedSauce"
             />
             <span>{{ sauce.name }}</span>
           </label>
@@ -31,9 +34,13 @@
             >
               <SelectorItem
                 :className="getClassNameForIngredient(ingredient)"
-                :ingridientName="ingredient.name"
+                :ingredientName="ingredient.name"
               />
-              <ItemCounter :name="getEnglishNameForIngridient(ingredient)" />
+              <ItemCounter
+                :obj="ingredient"
+                @increase="increaseIngredientPrice"
+                @decrease="decreaseIngredientPrice"
+              />
             </li>
           </ul>
         </div>
@@ -43,7 +50,6 @@
 </template>
 
 <script>
-import pizza from "@/static/pizza.json";
 import RadioButton from "@/common/components/RadioButton";
 import SelectorItem from "@/common/components/SelectorItem";
 import ItemCounter from "@/common/components/ItemCounter";
@@ -55,10 +61,15 @@ export default {
     SelectorItem,
     ItemCounter,
   },
-  data() {
-    return {
-      pizza,
-    };
+  props: {
+    pizza: {
+      type: Object,
+      requried: true,
+    },
+    selectedSauce: {
+      type: Object,
+      requried: true,
+    },
   },
   methods: {
     getInputValueForSauce(sauceName) {
@@ -71,11 +82,21 @@ export default {
           return "";
       }
     },
-    getEnglishNameForIngridient(ingredient) {
-      return ingredient.image.replace(".svg", "").split("/").at(-1);
-    },
     getClassNameForIngredient(ingredient) {
-      return `filling--${this.getEnglishNameForIngridient(ingredient)}`;
+      const englishName = ingredient.image
+        .replace(".svg", "")
+        .split("/")
+        .at(-1);
+      return `filling--${englishName}`;
+    },
+    updateSelectedSauce(sauce) {
+      this.$emit("updateSelectedSauce", sauce);
+    },
+    increaseIngredientPrice(ingredient) {
+      this.$emit("increaseIngredientPrice", ingredient.price);
+    },
+    decreaseIngredientPrice(ingredient) {
+      this.$emit("decreaseIngredientPrice", ingredient.price);
     },
   },
 };
