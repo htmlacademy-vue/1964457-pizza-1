@@ -4,7 +4,7 @@
       <h2 class="title title--small sheet__title">Выберите тесто</h2>
       <div class="sheet__content dough">
         <label
-          v-for="dough in pizza.dough"
+          v-for="dough in doughs"
           :key="dough.id"
           class="dough__input"
           :class="getClassNameForDough(dough.name)"
@@ -34,8 +34,8 @@ export default {
     RadioButton,
   },
   props: {
-    pizza: {
-      type: Object,
+    doughs: {
+      type: Array,
       required: true,
     },
     selectedDough: {

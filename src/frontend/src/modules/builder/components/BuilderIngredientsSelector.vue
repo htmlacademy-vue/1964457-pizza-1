@@ -9,7 +9,7 @@
 
           <label
             class="radio ingredients__input"
-            v-for="sauce in pizza.sauces"
+            v-for="sauce in sauces"
             :key="sauce.id"
           >
             <RadioButton
@@ -28,7 +28,7 @@
 
           <ul class="ingredients__list">
             <li
-              v-for="ingredient in pizza.ingredients"
+              v-for="ingredient in ingredients"
               :key="ingredient.id"
               class="ingredients__item"
             >
@@ -38,8 +38,8 @@
               />
               <ItemCounter
                 :obj="ingredient"
-                @increase="increaseIngredientPrice"
-                @decrease="decreaseIngredientPrice"
+                @increase="addIngredient"
+                @decrease="removeIngredient"
               />
             </li>
           </ul>
@@ -62,8 +62,12 @@ export default {
     ItemCounter,
   },
   props: {
-    pizza: {
-      type: Object,
+    ingredients: {
+      type: Array,
+      requried: true,
+    },
+    sauces: {
+      type: Array,
       requried: true,
     },
     selectedSauce: {
@@ -92,11 +96,11 @@ export default {
     updateSelectedSauce(sauce) {
       this.$emit("updateSelectedSauce", sauce);
     },
-    increaseIngredientPrice(ingredient) {
-      this.$emit("increaseIngredientPrice", ingredient.price);
+    addIngredient(ingredient) {
+      this.$emit("addIngredient", ingredient);
     },
-    decreaseIngredientPrice(ingredient) {
-      this.$emit("decreaseIngredientPrice", ingredient.price);
+    removeIngredient(ingredient) {
+      this.$emit("removeIngredient", ingredient);
     },
   },
 };

@@ -13,7 +13,7 @@
       <div class="pizza pizza--foundation--big-tomato">
         <div class="pizza__wrapper">
           <div
-            v-for="ingredient in ingredients"
+            v-for="ingredient in selectedIngredients.ingredients"
             class="pizza__filling"
             :class="getClassName(ingredient)"
             :key="ingredient.id"
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <BuilderPriceCounter />
+    <BuilderPriceCounter :totalPrice="totalPrice" />
   </div>
 </template>
 
@@ -35,14 +35,22 @@ export default {
     BuilderPriceCounter,
   },
   props: {
-    ingredients: {
+    selectedIngredients: {
       type: Object,
+      required: true,
+    },
+    totalPrice: {
+      type: Number,
       required: true,
     },
   },
   methods: {
     getClassName(ingredient) {
-      return `pizza__filling--${ingredient.englishName}`;
+      const englishName = ingredient.image
+        .replace(".svg", "")
+        .split("/")
+        .at(-1);
+      return `pizza__filling--${englishName}`;
     },
   },
 };

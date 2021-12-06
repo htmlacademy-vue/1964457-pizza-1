@@ -5,7 +5,7 @@
 
       <div class="sheet__content diameter">
         <label
-          v-for="size in pizza.sizes"
+          v-for="size in sizes"
           :key="size.id"
           class="diameter__input"
           :class="getClassNameForDiameter(size.name)"
@@ -33,8 +33,8 @@ export default {
     RadioButton,
   },
   props: {
-    pizza: {
-      type: Object,
+    sizes: {
+      type: Array,
       required: true,
     },
     selectedSize: {
