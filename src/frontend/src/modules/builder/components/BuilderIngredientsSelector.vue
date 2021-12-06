@@ -38,6 +38,8 @@
               />
               <ItemCounter
                 :obj="ingredient"
+                :max="3"
+                :min="0"
                 @increase="addIngredient"
                 @decrease="removeIngredient"
               />

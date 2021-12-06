@@ -24,6 +24,8 @@
         <BuilderPizzaView
           :selectedIngredients="selectedIngredients"
           :totalPrice="totalPrice"
+          :selectedDough="selectedDough"
+          :selectedSauce="selectedSauce"
         />
       </div>
     </form>

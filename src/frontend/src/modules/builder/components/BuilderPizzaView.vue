@@ -10,12 +10,12 @@
     </label>
 
     <div class="content__constructor">
-      <div class="pizza pizza--foundation--big-tomato">
+      <div class="pizza" :class="getFoundationClassName()">
         <div class="pizza__wrapper">
           <div
             v-for="ingredient in selectedIngredients.ingredients"
             class="pizza__filling"
-            :class="getClassName(ingredient)"
+            :class="getFilingClassName(ingredient)"
             :key="ingredient.id"
           ></div>
         </div>
@@ -43,14 +43,36 @@ export default {
       type: Number,
       required: true,
     },
+    selectedDough: {
+      type: Object,
+      required: true,
+    },
+    selectedSauce: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
-    getClassName(ingredient) {
+    getFoundationClassName() {
+      const dough = this.selectedDough.name === "Толстое" ? "big" : "small";
+      const sauce =
+        this.selectedSauce.name === "Томатный" ? "tomato" : "creamy";
+      return `pizza--foundation--${dough}-${sauce}`;
+    },
+    getFilingClassName(ingredient) {
       const englishName = ingredient.image
         .replace(".svg", "")
         .split("/")
         .at(-1);
-      return `pizza__filling--${englishName}`;
+      const count = this.selectedIngredients.count[ingredient.id];
+      switch (count) {
+        case 1:
+          return `pizza__filling--${englishName}`;
+        case 2:
+          return `pizza__filling--${englishName} pizza__filling--second`;
+        case 3:
+          return `pizza__filling--${englishName} pizza__filling--third`;
+      }
     },
   },
 };

@@ -3,6 +3,7 @@
     <button
       type="button"
       class="counter__button counter__button--minus"
+      :disabled="counter <= min"
       @click="decrease"
     >
       <span class="visually-hidden">Меньше</span>
@@ -11,6 +12,7 @@
     <button
       type="button"
       class="counter__button counter__button--plus"
+      :disabled="counter >= max"
       @click="increase"
     >
       <span class="visually-hidden">Больше</span>
@@ -31,13 +33,19 @@ export default {
       type: Object,
       required: true,
     },
+    max: {
+      type: Number,
+      required: true,
+    },
+    min: {
+      type: Number,
+      required: true,
+    },
   },
   methods: {
     decrease() {
-      if (this.counter > 0) {
-        this.counter--;
-        this.$emit("decrease", this.obj);
-      }
+      this.counter--;
+      this.$emit("decrease", this.obj);
     },
     increase() {
       this.counter++;
