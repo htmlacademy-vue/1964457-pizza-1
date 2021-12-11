@@ -15,6 +15,7 @@
         />
         <BuilderIngredientsSelector
           :ingredients="pizza.ingredients"
+          :selectedIngredients="selectedIngredients"
           :sauces="pizza.sauces"
           :selectedSauce="selectedSauce"
           @updateSelectedSauce="updateSelectedSauce"
@@ -26,6 +27,7 @@
           :totalPrice="totalPrice"
           :selectedDough="selectedDough"
           :selectedSauce="selectedSauce"
+          @addToCart="addToCart"
         />
       </div>
     </form>
@@ -48,18 +50,21 @@ export default {
     BuilderPizzaView,
   },
   data() {
-    return {
-      pizza,
-      selectedDough: pizza.dough[0],
-      selectedSize: pizza.sizes[0],
-      selectedSauce: pizza.sauces[0],
-      selectedIngredients: { ingredients: [], count: {} },
-      totalPrice:
-        (pizza.dough[0].price + pizza.sauces[0].price) *
-        pizza.sizes[0].multiplier,
-    };
+    return this.initialState();
   },
   methods: {
+    initialState() {
+      return {
+        pizza,
+        selectedDough: pizza.dough[0],
+        selectedSize: pizza.sizes[0],
+        selectedSauce: pizza.sauces[0],
+        selectedIngredients: { ingredients: [], count: {} },
+        totalPrice:
+          (pizza.dough[0].price + pizza.sauces[0].price) *
+          pizza.sizes[0].multiplier,
+      };
+    },
     updateSelectedDough(dough) {
       this.selectedDough = dough;
       this.totalPrice = this.calculateTotalPrice();
@@ -111,6 +116,10 @@ export default {
         }
         this.totalPrice = this.calculateTotalPrice();
       }
+    },
+    addToCart() {
+      this.$emit("addToCart", this.totalPrice);
+      Object.assign(this.$data, this.initialState());
     },
   },
 };

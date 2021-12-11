@@ -1,7 +1,16 @@
 <template>
   <div class="content__result">
     <p>Итого {{ totalPrice }} ₽</p>
-    <button type="button" class="button" disabled>Готовьте!</button>
+    <button
+      type="button"
+      class="button"
+      :disabled="
+        selectedIngredients.ingredients.length === 0 || pizzaName.length === 0
+      "
+      @click="$emit(`addToCart`)"
+    >
+      Готовьте!
+    </button>
   </div>
 </template>
 <style lang="postcss" scoped></style>
@@ -11,6 +20,14 @@ export default {
   props: {
     totalPrice: {
       type: Number,
+      required: true,
+    },
+    pizzaName: {
+      type: String,
+      required: true,
+    },
+    selectedIngredients: {
+      type: Object,
       required: true,
     },
   },

@@ -35,11 +35,13 @@
               <SelectorItem
                 :className="getClassNameForIngredient(ingredient)"
                 :ingredientName="ingredient.name"
+                draggable
               />
               <ItemCounter
                 :obj="ingredient"
                 :max="3"
                 :min="0"
+                :current="getIngredientCount(ingredient.id)"
                 @increase="addIngredient"
                 @decrease="removeIngredient"
               />
@@ -66,6 +68,10 @@ export default {
   props: {
     ingredients: {
       type: Array,
+      requried: true,
+    },
+    selectedIngredients: {
+      type: Object,
       requried: true,
     },
     sauces: {
@@ -103,6 +109,12 @@ export default {
     },
     removeIngredient(ingredient) {
       this.$emit("removeIngredient", ingredient);
+    },
+    getIngredientCount(ingredientId) {
+      if (ingredientId in this.selectedIngredients.count) {
+        return this.selectedIngredients.count[ingredientId];
+      }
+      return 0;
     },
   },
 };

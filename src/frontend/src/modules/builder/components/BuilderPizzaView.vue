@@ -1,11 +1,12 @@
 <template>
   <div class="content__pizza">
     <label class="input">
-      <span class="visually-hidden">Название пиццы</span>
+      <span>Название пиццы</span>
       <input
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
+        v-model="pizzaName"
       />
     </label>
 
@@ -22,7 +23,12 @@
       </div>
     </div>
 
-    <BuilderPriceCounter :totalPrice="totalPrice" />
+    <BuilderPriceCounter
+      :totalPrice="totalPrice"
+      :pizzaName="pizzaName"
+      :selectedIngredients="selectedIngredients"
+      @addToCart="addToCart"
+    />
   </div>
 </template>
 
@@ -33,6 +39,11 @@ export default {
   name: "BuilderPizzaView",
   components: {
     BuilderPriceCounter,
+  },
+  data() {
+    return {
+      pizzaName: "",
+    };
   },
   props: {
     selectedIngredients: {
@@ -73,6 +84,10 @@ export default {
         case 3:
           return `pizza__filling--${englishName} pizza__filling--third`;
       }
+    },
+    addToCart() {
+      this.pizzaName = "";
+      this.$emit(`addToCart`);
     },
   },
 };

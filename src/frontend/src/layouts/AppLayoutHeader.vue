@@ -12,7 +12,7 @@
       </a>
     </div>
     <div class="header__cart">
-      <a href="cart.html">0 ₽</a>
+      <a href="cart.html">{{ cartPrice }} ₽</a>
     </div>
     <div class="header__user">
       <a href="#" class="header__login"><span>Войти</span></a>
@@ -23,5 +23,11 @@
 <script>
 export default {
   name: "AppLayoutHeader",
+  props: {
+    cartPrice: {
+      type: Number,
+      required: true,
+    },
+  },
 };
 </script>

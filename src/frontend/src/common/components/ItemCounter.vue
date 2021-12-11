@@ -3,16 +3,22 @@
     <button
       type="button"
       class="counter__button counter__button--minus"
-      :disabled="counter <= min"
+      :disabled="current <= min"
       @click="decrease"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
-    <input type="text" name="counter" class="counter__input" :value="counter" />
+    <input
+      type="text"
+      name="counter"
+      class="counter__input"
+      :value="current"
+      readonly="readonly"
+    />
     <button
       type="button"
       class="counter__button counter__button--plus"
-      :disabled="counter >= max"
+      :disabled="current >= max"
       @click="increase"
     >
       <span class="visually-hidden">Больше</span>
@@ -23,11 +29,6 @@
 <script>
 export default {
   name: "ItemCounter",
-  data() {
-    return {
-      counter: 0,
-    };
-  },
   props: {
     obj: {
       type: Object,
@@ -41,14 +42,18 @@ export default {
       type: Number,
       required: true,
     },
+    current: {
+      type: Number,
+      default: 0,
+    },
   },
   methods: {
     decrease() {
-      this.counter--;
+      this.current--;
       this.$emit("decrease", this.obj);
     },
     increase() {
-      this.counter++;
+      this.current++;
       this.$emit("increase", this.obj);
     },
   },
