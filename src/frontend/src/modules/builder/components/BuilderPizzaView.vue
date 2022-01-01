@@ -11,7 +11,13 @@
     </label>
 
     <div class="content__constructor">
-      <div class="pizza" :class="getFoundationClassName()">
+      <div
+        class="pizza"
+        :class="getFoundationClassName()"
+        @drop="dropIngredient($event)"
+        @dragover.prevent
+        @dragenter.prevent
+      >
         <div class="pizza__wrapper">
           <div
             v-for="ingredient in Object.values(selectedIngredients).filter(
@@ -89,6 +95,10 @@ export default {
     addToCart() {
       this.pizzaName = "";
       this.$emit(`addToCart`);
+    },
+    dropIngredient(evt) {
+      const ingredientId = evt.dataTransfer.getData("ingredientId");
+      this.$emit("addIngredient", this.selectedIngredients[ingredientId]);
     },
   },
 };

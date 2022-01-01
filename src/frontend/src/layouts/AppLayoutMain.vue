@@ -28,6 +28,7 @@
           :selectedDough="selectedDough"
           :selectedSauce="selectedSauce"
           @addToCart="addToCart"
+          @addIngredient="addIngredient"
         />
       </div>
     </form>

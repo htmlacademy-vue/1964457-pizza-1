@@ -3,6 +3,7 @@
     class="filling"
     :class="getClassNameForIngredient()"
     :draggable="draggable"
+    @dragstart="startDrag($event, ingredient)"
     >{{ ingredient.name }}</span
   >
 </template>
@@ -27,6 +28,11 @@ export default {
         .split("/")
         .at(-1);
       return `filling--${englishName}`;
+    },
+    startDrag(evt, ingredient) {
+      evt.dataTransfer.dropEffect = "move";
+      evt.dataTransfer.effectAllowed = "move";
+      evt.dataTransfer.setData("ingredientId", ingredient.id);
     },
   },
 };
