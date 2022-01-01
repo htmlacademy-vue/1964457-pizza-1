@@ -33,15 +33,14 @@
               class="ingredients__item"
             >
               <SelectorItem
-                :className="getClassNameForIngredient(ingredient)"
-                :ingredientName="ingredient.name"
-                draggable
+                :ingredient="ingredient"
+                :draggable="selectedIngredients[ingredient.id].count < 3"
               />
               <ItemCounter
                 :obj="ingredient"
                 :max="3"
                 :min="0"
-                :current="getIngredientCount(ingredient.id)"
+                :current="selectedIngredients[ingredient.id].count"
                 @increase="addIngredient"
                 @decrease="removeIngredient"
               />
@@ -94,13 +93,6 @@ export default {
           return "";
       }
     },
-    getClassNameForIngredient(ingredient) {
-      const englishName = ingredient.image
-        .replace(".svg", "")
-        .split("/")
-        .at(-1);
-      return `filling--${englishName}`;
-    },
     updateSelectedSauce(sauce) {
       this.$emit("updateSelectedSauce", sauce);
     },
@@ -109,12 +101,6 @@ export default {
     },
     removeIngredient(ingredient) {
       this.$emit("removeIngredient", ingredient);
-    },
-    getIngredientCount(ingredientId) {
-      if (ingredientId in this.selectedIngredients.count) {
-        return this.selectedIngredients.count[ingredientId];
-      }
-      return 0;
     },
   },
 };

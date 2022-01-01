@@ -49,11 +49,9 @@ export default {
   },
   methods: {
     decrease() {
-      this.current--;
       this.$emit("decrease", this.obj);
     },
     increase() {
-      this.current++;
       this.$emit("increase", this.obj);
     },
   },

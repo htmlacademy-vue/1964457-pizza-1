@@ -59,11 +59,24 @@ export default {
         selectedDough: pizza.dough[0],
         selectedSize: pizza.sizes[0],
         selectedSauce: pizza.sauces[0],
-        selectedIngredients: { ingredients: [], count: {} },
+        selectedIngredients: this.initSelectedIngredients(),
         totalPrice:
           (pizza.dough[0].price + pizza.sauces[0].price) *
           pizza.sizes[0].multiplier,
       };
+    },
+    initSelectedIngredients() {
+      const result = {};
+      pizza.ingredients.forEach((ingredient) => {
+        result[ingredient.id] = {
+          id: ingredient.id,
+          name: ingredient.name,
+          image: ingredient.image,
+          price: ingredient.price,
+          count: 0,
+        };
+      });
+      return result;
     },
     updateSelectedDough(dough) {
       this.selectedDough = dough;
@@ -79,9 +92,8 @@ export default {
     },
     calculateIngredientPrice() {
       let price = 0;
-      this.selectedIngredients.ingredients.forEach((ingredient) => {
-        price +=
-          ingredient.price * this.selectedIngredients.count[ingredient.id];
+      Object.values(this.selectedIngredients).forEach((ingredient) => {
+        price += ingredient.price * ingredient.count;
       });
       return price;
     },
@@ -95,27 +107,12 @@ export default {
       return totalPrice;
     },
     addIngredient(ingredient) {
-      const idx = this.selectedIngredients.ingredients.indexOf(ingredient);
-      if (idx === -1) {
-        this.selectedIngredients.ingredients.push(ingredient);
-        this.selectedIngredients.count[ingredient.id] = 1;
-      } else {
-        this.selectedIngredients.count[ingredient.id]++;
-      }
+      this.selectedIngredients[ingredient.id].count++;
       this.totalPrice = this.calculateTotalPrice();
     },
     removeIngredient(ingredient) {
-      const idx = this.selectedIngredients.ingredients.indexOf(ingredient);
-      if (idx > -1) {
-        const ingredientId = this.selectedIngredients.ingredients[idx].id;
-        if (this.selectedIngredients.count[ingredientId] === 1) {
-          this.selectedIngredients.ingredients.splice(idx, 1);
-          delete this.selectedIngredients.count[ingredientId];
-        } else {
-          this.selectedIngredients.count[ingredientId]--;
-        }
-        this.totalPrice = this.calculateTotalPrice();
-      }
+      this.selectedIngredients[ingredient.id].count--;
+      this.totalPrice = this.calculateTotalPrice();
     },
     addToCart() {
       this.$emit("addToCart", this.totalPrice);

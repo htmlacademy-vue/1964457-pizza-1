@@ -1,19 +1,32 @@
 <template>
-  <span class="filling" :class="className">{{ ingredientName }}</span>
+  <span
+    class="filling"
+    :class="getClassNameForIngredient()"
+    :draggable="draggable"
+    >{{ ingredient.name }}</span
+  >
 </template>
 
 <script>
 export default {
   name: "SelectorItem",
   props: {
-    className: {
-      type: String,
-      default: "",
-    },
-
-    ingredientName: {
-      type: String,
+    ingredient: {
+      type: Object,
       required: true,
+    },
+    draggable: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  methods: {
+    getClassNameForIngredient() {
+      const englishName = this.ingredient.image
+        .replace(".svg", "")
+        .split("/")
+        .at(-1);
+      return `filling--${englishName}`;
     },
   },
 };

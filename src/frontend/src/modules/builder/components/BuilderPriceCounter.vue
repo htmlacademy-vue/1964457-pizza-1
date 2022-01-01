@@ -5,7 +5,8 @@
       type="button"
       class="button"
       :disabled="
-        selectedIngredients.ingredients.length === 0 || pizzaName.length === 0
+        Object.values(selectedIngredients).every((e) => e.count === 0) ||
+        pizzaName.length === 0
       "
       @click="$emit(`addToCart`)"
     >

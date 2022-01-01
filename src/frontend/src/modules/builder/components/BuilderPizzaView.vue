@@ -14,7 +14,9 @@
       <div class="pizza" :class="getFoundationClassName()">
         <div class="pizza__wrapper">
           <div
-            v-for="ingredient in selectedIngredients.ingredients"
+            v-for="ingredient in Object.values(selectedIngredients).filter(
+              (i) => i.count > 0
+            )"
             class="pizza__filling"
             :class="getFilingClassName(ingredient)"
             :key="ingredient.id"
@@ -75,8 +77,7 @@ export default {
         .replace(".svg", "")
         .split("/")
         .at(-1);
-      const count = this.selectedIngredients.count[ingredient.id];
-      switch (count) {
+      switch (ingredient.count) {
         case 1:
           return `pizza__filling--${englishName}`;
         case 2:
