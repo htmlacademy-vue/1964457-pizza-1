@@ -28,19 +28,19 @@
 
           <ul class="ingredients__list">
             <li
-              v-for="ingredient in ingredients"
+              v-for="ingredient in ingredientsSorted"
               :key="ingredient.id"
               class="ingredients__item"
             >
               <SelectorItem
                 :ingredient="ingredient"
-                :draggable="selectedIngredients[ingredient.id].count < 3"
+                :draggable="ingredients[ingredient.id].count < 3"
               />
               <ItemCounter
                 :obj="ingredient"
                 :max="3"
                 :min="0"
-                :current="selectedIngredients[ingredient.id].count"
+                :current="ingredients[ingredient.id].count"
                 @increase="addIngredient"
                 @decrease="removeIngredient"
               />
@@ -66,10 +66,6 @@ export default {
   },
   props: {
     ingredients: {
-      type: Array,
-      requried: true,
-    },
-    selectedIngredients: {
       type: Object,
       requried: true,
     },
@@ -101,6 +97,13 @@ export default {
     },
     removeIngredient(ingredient) {
       this.$emit("removeIngredient", ingredient);
+    },
+  },
+  computed: {
+    ingredientsSorted() {
+      return Object.values(this.ingredients).sort(function (a, b) {
+        a.id - b.id;
+      });
     },
   },
 };

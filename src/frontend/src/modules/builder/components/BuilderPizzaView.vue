@@ -20,7 +20,7 @@
       >
         <div class="pizza__wrapper">
           <div
-            v-for="ingredient in Object.values(selectedIngredients).filter(
+            v-for="ingredient in Object.values(ingredients).filter(
               (i) => i.count > 0
             )"
             class="pizza__filling"
@@ -34,7 +34,7 @@
     <BuilderPriceCounter
       :totalPrice="totalPrice"
       :pizzaName="pizzaName"
-      :selectedIngredients="selectedIngredients"
+      :ingredients="ingredients"
       @addToCart="addToCart"
     />
   </div>
@@ -54,7 +54,7 @@ export default {
     };
   },
   props: {
-    selectedIngredients: {
+    ingredients: {
       type: Object,
       required: true,
     },
@@ -98,7 +98,7 @@ export default {
     },
     dropIngredient(evt) {
       const ingredientId = evt.dataTransfer.getData("ingredientId");
-      this.$emit("addIngredient", this.selectedIngredients[ingredientId]);
+      this.$emit("addIngredient", this.ingredients[ingredientId]);
     },
   },
 };

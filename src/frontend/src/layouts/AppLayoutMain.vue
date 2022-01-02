@@ -14,8 +14,7 @@
           @updateSelectedSize="updateSelectedSize"
         />
         <BuilderIngredientsSelector
-          :ingredients="pizza.ingredients"
-          :selectedIngredients="selectedIngredients"
+          :ingredients="ingredients"
           :sauces="pizza.sauces"
           :selectedSauce="selectedSauce"
           @updateSelectedSauce="updateSelectedSauce"
@@ -23,7 +22,7 @@
           @removeIngredient="removeIngredient"
         />
         <BuilderPizzaView
-          :selectedIngredients="selectedIngredients"
+          :ingredients="ingredients"
           :totalPrice="totalPrice"
           :selectedDough="selectedDough"
           :selectedSauce="selectedSauce"
@@ -60,13 +59,13 @@ export default {
         selectedDough: pizza.dough[0],
         selectedSize: pizza.sizes[0],
         selectedSauce: pizza.sauces[0],
-        selectedIngredients: this.initSelectedIngredients(),
+        ingredients: this.initIngredients(),
         totalPrice:
           (pizza.dough[0].price + pizza.sauces[0].price) *
           pizza.sizes[0].multiplier,
       };
     },
-    initSelectedIngredients() {
+    initIngredients() {
       const result = {};
       pizza.ingredients.forEach((ingredient) => {
         result[ingredient.id] = {
@@ -93,7 +92,7 @@ export default {
     },
     calculateIngredientPrice() {
       let price = 0;
-      Object.values(this.selectedIngredients).forEach((ingredient) => {
+      Object.values(this.ingredients).forEach((ingredient) => {
         price += ingredient.price * ingredient.count;
       });
       return price;
@@ -108,11 +107,11 @@ export default {
       return totalPrice;
     },
     addIngredient(ingredient) {
-      this.selectedIngredients[ingredient.id].count++;
+      this.ingredients[ingredient.id].count++;
       this.totalPrice = this.calculateTotalPrice();
     },
     removeIngredient(ingredient) {
-      this.selectedIngredients[ingredient.id].count--;
+      this.ingredients[ingredient.id].count--;
       this.totalPrice = this.calculateTotalPrice();
     },
     addToCart() {
