@@ -23,7 +23,6 @@ export default {
   methods: {
     addToCart(totalPrice) {
       this.cartPrice += totalPrice;
-      console.log(this.cartPrice);
     },
   },
 };

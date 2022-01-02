@@ -4,17 +4,14 @@
     <button
       type="button"
       class="button"
-      :disabled="
-        Object.values(ingredients).every((e) => e.count === 0) ||
-        pizzaName.length === 0
-      "
+      :disabled="isButtonDisabled"
       @click="$emit(`addToCart`)"
     >
       Готовьте!
     </button>
   </div>
 </template>
-<style lang="postcss" scoped></style>
+
 <script>
 export default {
   name: "BuilderPriceCounter",
@@ -32,5 +29,15 @@ export default {
       required: true,
     },
   },
+  computed: {
+    isButtonDisabled() {
+      return (
+        Object.values(this.ingredients).every((e) => e.count === 0) ||
+        this.pizzaName.length === 0
+      );
+    },
+  },
 };
 </script>
+
+<style lang="postcss" scoped></style>

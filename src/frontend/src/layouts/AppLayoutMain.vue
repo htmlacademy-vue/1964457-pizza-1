@@ -60,9 +60,6 @@ export default {
         selectedSize: pizza.sizes[0],
         selectedSauce: pizza.sauces[0],
         ingredients: this.initIngredients(),
-        totalPrice:
-          (pizza.dough[0].price + pizza.sauces[0].price) *
-          pizza.sizes[0].multiplier,
       };
     },
     initIngredients() {
@@ -80,15 +77,12 @@ export default {
     },
     updateSelectedDough(dough) {
       this.selectedDough = dough;
-      this.totalPrice = this.calculateTotalPrice();
     },
     updateSelectedSize(size) {
       this.selectedSize = size;
-      this.totalPrice = this.calculateTotalPrice();
     },
     updateSelectedSauce(sauce) {
       this.selectedSauce = sauce;
-      this.totalPrice = this.calculateTotalPrice();
     },
     calculateIngredientPrice() {
       let price = 0;
@@ -97,26 +91,25 @@ export default {
       });
       return price;
     },
-    calculateTotalPrice() {
-      const ingredientPrice = this.calculateIngredientPrice();
-      const totalPrice =
-        (ingredientPrice +
-          this.selectedDough.price +
-          this.selectedSauce.price) *
-        this.selectedSize.multiplier;
-      return totalPrice;
-    },
     addIngredient(ingredient) {
       this.ingredients[ingredient.id].count++;
-      this.totalPrice = this.calculateTotalPrice();
     },
     removeIngredient(ingredient) {
       this.ingredients[ingredient.id].count--;
-      this.totalPrice = this.calculateTotalPrice();
     },
     addToCart() {
       this.$emit("addToCart", this.totalPrice);
       Object.assign(this.$data, this.initialState());
+    },
+  },
+  computed: {
+    totalPrice() {
+      return (
+        (this.selectedDough.price +
+          this.selectedSauce.price +
+          this.calculateIngredientPrice()) *
+        this.selectedSize.multiplier
+      );
     },
   },
 };

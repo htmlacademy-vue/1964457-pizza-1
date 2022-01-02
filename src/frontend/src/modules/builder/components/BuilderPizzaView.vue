@@ -13,16 +13,14 @@
     <div class="content__constructor">
       <div
         class="pizza"
-        :class="getFoundationClassName()"
+        :class="foundationClassName"
         @drop="dropIngredient($event)"
         @dragover.prevent
         @dragenter.prevent
       >
         <div class="pizza__wrapper">
           <div
-            v-for="ingredient in Object.values(ingredients).filter(
-              (i) => i.count > 0
-            )"
+            v-for="ingredient in selectedIngredients"
             class="pizza__filling"
             :class="getFilingClassName(ingredient)"
             :key="ingredient.id"
@@ -72,12 +70,6 @@ export default {
     },
   },
   methods: {
-    getFoundationClassName() {
-      const dough = this.selectedDough.name === "Толстое" ? "big" : "small";
-      const sauce =
-        this.selectedSauce.name === "Томатный" ? "tomato" : "creamy";
-      return `pizza--foundation--${dough}-${sauce}`;
-    },
     getFilingClassName(ingredient) {
       const englishName = ingredient.image
         .replace(".svg", "")
@@ -99,6 +91,17 @@ export default {
     dropIngredient(evt) {
       const ingredientId = evt.dataTransfer.getData("ingredientId");
       this.$emit("addIngredient", this.ingredients[ingredientId]);
+    },
+  },
+  computed: {
+    foundationClassName() {
+      const dough = this.selectedDough.name === "Толстое" ? "big" : "small";
+      const sauce =
+        this.selectedSauce.name === "Томатный" ? "tomato" : "creamy";
+      return `pizza--foundation--${dough}-${sauce}`;
+    },
+    selectedIngredients() {
+      return Object.values(this.ingredients).filter((i) => i.count > 0);
     },
   },
 };
