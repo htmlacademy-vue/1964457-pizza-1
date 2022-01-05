@@ -1,28 +1,17 @@
 <template>
-  <div class="app-layout">
-    <AppLayoutHeader :cartPrice="cartPrice" />
-    <AppLayoutMain @addToCart="addToCart" />
-  </div>
+  <component :is="layout">
+    <slot />
+  </component>
 </template>
 
 <script>
-import AppLayoutHeader from "@/layouts/AppLayoutHeader";
-import AppLayoutMain from "@/layouts/AppLayoutMain";
-
+const defaultLayout = "AppLayoutDefault";
 export default {
   name: "AppLayout",
-  components: {
-    AppLayoutHeader,
-    AppLayoutMain,
-  },
-  data() {
-    return {
-      cartPrice: 0,
-    };
-  },
-  methods: {
-    addToCart(totalPrice) {
-      this.cartPrice += totalPrice;
+  computed: {
+    layout() {
+      const layout = this.$route.meta.layout || defaultLayout;
+      return () => import(`@/layouts/${layout}.vue`);
     },
   },
 };
