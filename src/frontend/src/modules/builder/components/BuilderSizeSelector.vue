@@ -5,7 +5,7 @@
 
       <div class="sheet__content diameter">
         <label
-          v-for="size in sizes"
+          v-for="size in pizza.sizes"
           :key="size.id"
           class="diameter__input"
           :class="getClassNameForDiameter(size.name)"
@@ -15,8 +15,7 @@
             name="diameter"
             :value="getInputValueForDiameter(size.name)"
             :checked="size.id === selectedSize.id"
-            :obj="size"
-            @updateSelected="updateSelectedSize"
+            @updateSelected="updateSelectedSize(size)"
           />
           <span>{{ size.name }}</span>
         </label>
@@ -24,7 +23,9 @@
     </div>
   </div>
 </template>
+
 <script>
+import { mapState } from "vuex";
 import RadioButton from "@/common/components/RadioButton";
 
 export default {
@@ -32,15 +33,8 @@ export default {
   components: {
     RadioButton,
   },
-  props: {
-    sizes: {
-      type: Array,
-      required: true,
-    },
-    selectedSize: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapState("Builder", ["pizza", "selectedSize"]),
   },
   methods: {
     getClassNameForDiameter(diameter) {
@@ -68,7 +62,7 @@ export default {
       }
     },
     updateSelectedSize(size) {
-      this.$emit("updateSelectedSize", size);
+      this.$store.commit("Builder/changeSelectedSize", size);
     },
   },
 };

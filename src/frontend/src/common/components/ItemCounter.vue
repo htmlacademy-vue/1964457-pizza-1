@@ -30,10 +30,6 @@
 export default {
   name: "ItemCounter",
   props: {
-    obj: {
-      type: Object,
-      required: true,
-    },
     max: {
       type: Number,
       required: true,
@@ -49,10 +45,10 @@ export default {
   },
   methods: {
     decrease() {
-      this.$emit("decrease", this.obj);
+      this.$emit("decrease");
     },
     increase() {
-      this.$emit("increase", this.obj);
+      this.$emit("increase");
     },
   },
 };

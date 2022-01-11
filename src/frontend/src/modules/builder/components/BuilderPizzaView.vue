@@ -29,16 +29,12 @@
       </div>
     </div>
 
-    <BuilderPriceCounter
-      :totalPrice="totalPrice"
-      :pizzaName="pizzaName"
-      :ingredients="ingredients"
-      @addToCart="addToCart"
-    />
+    <BuilderPriceCounter :pizzaName="pizzaName" @addToCart="addToCart" />
   </div>
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
 import BuilderPriceCounter from "./BuilderPriceCounter";
 
 export default {
@@ -51,24 +47,7 @@ export default {
       pizzaName: "",
     };
   },
-  props: {
-    ingredients: {
-      type: Object,
-      required: true,
-    },
-    totalPrice: {
-      type: Number,
-      required: true,
-    },
-    selectedDough: {
-      type: Object,
-      required: true,
-    },
-    selectedSauce: {
-      type: Object,
-      required: true,
-    },
-  },
+
   methods: {
     getFilingClassName(ingredient) {
       const englishName = ingredient.image
@@ -86,22 +65,22 @@ export default {
     },
     addToCart() {
       this.pizzaName = "";
-      this.$emit(`addToCart`);
+      this.$store.commit("Cart/incrementTotalPrice", this.pizzaPrice);
+      this.$store.commit("Builder/resetState");
     },
     dropIngredient(evt) {
       const ingredientId = evt.dataTransfer.getData("ingredientId");
-      this.$emit("addIngredient", this.ingredients[ingredientId]);
+      this.$store.commit("Builder/addIngredient", ingredientId);
     },
   },
   computed: {
+    ...mapState("Builder", ["selectedDough", "selectedSauce"]),
+    ...mapGetters("Builder", ["selectedIngredients", "pizzaPrice"]),
     foundationClassName() {
       const dough = this.selectedDough.name === "Толстое" ? "big" : "small";
       const sauce =
         this.selectedSauce.name === "Томатный" ? "tomato" : "creamy";
       return `pizza--foundation--${dough}-${sauce}`;
-    },
-    selectedIngredients() {
-      return Object.values(this.ingredients).filter((i) => i.count > 0);
     },
   },
 };

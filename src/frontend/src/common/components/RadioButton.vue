@@ -29,14 +29,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    obj: {
-      type: Object,
-      required: true,
-    },
   },
   methods: {
     updateSelected() {
-      this.$emit("updateSelected", this.obj);
+      this.$emit("updateSelected");
     },
   },
 };
