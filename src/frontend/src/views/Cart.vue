@@ -1,6 +1,11 @@
 <template>
   <div>
-    <form action="test.html" method="post" class="layout-form">
+    <form
+      action="test.html"
+      method="post"
+      class="layout-form"
+      @submit.prevent="submitOrder"
+    >
       <main class="content cart">
         <div class="container">
           <div class="cart__title">
@@ -17,10 +22,16 @@
             <CartAddressForm />
           </div>
         </div>
+        <div v-if="showPopup">
+          <CartPopup @close="resetState" />
+        </div>
       </main>
       <section class="footer">
         <div class="footer__more">
-          <a href="#" class="button button--border button--arrow"
+          <a
+            href="#"
+            class="button button--border button--arrow"
+            @click="$router.push(`/`)"
             >Хочу еще одну</a
           >
         </div>
@@ -44,18 +55,36 @@ import { mapGetters, mapState } from "vuex";
 import CartPizzaList from "@/modules/cart/components/CartPizzaList";
 import CartAdditionalItems from "@/modules/cart/components/CartAdditionalItems";
 import CartAddressForm from "@/modules/cart/components/CartAddressForm";
+import CartPopup from "@/modules/cart/components/CartPopup";
 export default {
   name: "Cart",
   components: {
     CartPizzaList,
     CartAdditionalItems,
     CartAddressForm,
+    CartPopup,
+  },
+  data() {
+    return {
+      showPopup: false,
+    };
   },
   computed: {
     ...mapGetters("Cart", ["cartPrice"]),
     ...mapState("Cart", ["pizzas", "additionalItems"]),
     isCartEmpty() {
       return this.pizzas.length === 0 && this.additionalItems.length === 0;
+    },
+  },
+  methods: {
+    submitOrder() {
+      this.showPopup = true;
+    },
+    resetState() {
+      this.showPopup = false;
+      this.$store.commit("Cart/resetState");
+      this.$store.commit("Builder/resetState");
+      this.$router.push("/");
     },
   },
 };

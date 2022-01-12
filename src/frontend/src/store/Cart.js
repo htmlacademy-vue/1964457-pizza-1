@@ -10,13 +10,17 @@ const initAdditionalItems = () => {
   }));
 };
 
-export default {
-  namespaced: true,
-  state: {
+const getInitialState = () => {
+  return {
     pizzas: [],
     additionalItems: initAdditionalItems(),
     pizzaCounter: 0,
-  },
+  };
+};
+
+export default {
+  namespaced: true,
+  state: getInitialState(),
   getters: {
     cartPrice(state) {
       let pizzasPrice = 0;
@@ -72,6 +76,9 @@ export default {
     },
     decreaseAdditionalItemCount(state, payload) {
       state.additionalItems.find((x) => x.id === payload).count--;
+    },
+    resetState(state) {
+      Object.assign(state, getInitialState());
     },
   },
   actions: {},
