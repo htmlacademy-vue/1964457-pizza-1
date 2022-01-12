@@ -21,6 +21,7 @@ const getInitialState = () => {
     selectedSize: pizza.sizes[0],
     selectedSauce: pizza.sauces[0],
     ingredients: initIngredients(),
+    pizzaName: "",
   };
 };
 
@@ -40,6 +41,7 @@ export default {
           .map((ingredient) => ingredient.count * ingredient.price)
           .reduce((a, b) => a + b);
       }
+      console.log(ingredientPrice);
       return (
         (ingredientPrice +
           state.selectedDough.price +
@@ -66,6 +68,18 @@ export default {
     },
     removeIngredient(state, payload) {
       state.ingredients[payload].count--;
+    },
+    setState(state, payload) {
+      state.selectedDough = payload.dough;
+      state.selectedSize = payload.size;
+      state.selectedSauce = payload.sauce;
+      state.pizzaName = payload.name;
+      payload.ingredients.forEach((i) => {
+        state.ingredients[i.id].count = i.count;
+      });
+    },
+    setPizzaName(state, payload) {
+      state.pizzaName = payload;
     },
   },
   actions: {},

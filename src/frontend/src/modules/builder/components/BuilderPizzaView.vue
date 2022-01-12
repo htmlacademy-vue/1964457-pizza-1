@@ -42,11 +42,6 @@ export default {
   components: {
     BuilderPriceCounter,
   },
-  data() {
-    return {
-      pizzaName: "",
-    };
-  },
 
   methods: {
     getFilingClassName(ingredient) {
@@ -64,8 +59,15 @@ export default {
       }
     },
     addToCart() {
-      this.pizzaName = "";
-      this.$store.commit("Cart/incrementTotalPrice", this.pizzaPrice);
+      const payload = {
+        name: this.pizzaName,
+        sauce: this.selectedSauce,
+        dough: this.selectedDough,
+        size: this.selectedSize,
+        ingredients: this.selectedIngredients,
+        price: this.pizzaPrice,
+      };
+      this.$store.commit("Cart/addPizza", payload);
       this.$store.commit("Builder/resetState");
     },
     dropIngredient(evt) {
@@ -74,13 +76,21 @@ export default {
     },
   },
   computed: {
-    ...mapState("Builder", ["selectedDough", "selectedSauce"]),
+    ...mapState("Builder", ["selectedDough", "selectedSauce", "selectedSize"]),
     ...mapGetters("Builder", ["selectedIngredients", "pizzaPrice"]),
     foundationClassName() {
       const dough = this.selectedDough.name === "Толстое" ? "big" : "small";
       const sauce =
         this.selectedSauce.name === "Томатный" ? "tomato" : "creamy";
       return `pizza--foundation--${dough}-${sauce}`;
+    },
+    pizzaName: {
+      get() {
+        return this.$store.state.Builder.pizzaName;
+      },
+      set(value) {
+        this.$store.commit("Builder/setPizzaName", value);
+      },
     },
   },
 };
