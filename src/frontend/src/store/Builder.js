@@ -41,13 +41,12 @@ export default {
           .map((ingredient) => ingredient.count * ingredient.price)
           .reduce((a, b) => a + b);
       }
-      console.log(ingredientPrice);
-      return (
+      const result =
         (ingredientPrice +
           state.selectedDough.price +
           state.selectedSauce.price) *
-        state.selectedSize.multiplier
-      );
+        state.selectedSize.multiplier;
+      return result;
     },
   },
   mutations: {

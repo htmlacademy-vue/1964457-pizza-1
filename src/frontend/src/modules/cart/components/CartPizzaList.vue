@@ -29,7 +29,7 @@
         @decrease="decreaseOrRemovePizza(pizza.id)"
       />
       <div class="cart-list__price">
-        <b> x {{ pizza.price }} ₽ </b>
+        <b> {{ pizza.price * pizza.count }} ₽ </b>
       </div>
 
       <div class="cart-list__button">
@@ -49,7 +49,7 @@
 import { mapState, mapGetters } from "vuex";
 import CartItemCounter from "@/common/components/CartItemCounter";
 export default {
-  name: "CartListSheet",
+  name: "CartPizzaList",
   components: {
     CartItemCounter,
   },

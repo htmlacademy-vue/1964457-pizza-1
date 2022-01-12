@@ -10,182 +10,8 @@
           <!-- <div class="sheet cart__empty">
           <p>В корзине нет ни одного товара</p>
         </div> -->
-          <CartListSheet />
-          <!-- <ul class="cart-list sheet">
-            <li v-for="pizza in pizzas" :key="pizza.id" class="cart-list__item">
-              <div class="product cart-list__product">
-                <img
-                  src="img/product.svg"
-                  class="product__img"
-                  width="56"
-                  height="56"
-                  alt="pizza.name"
-                />
-                <div class="product__text">
-                  <h2>{{ pizza.name }}</h2>
-                  <ul>
-                    <li>
-                      {{ pizza.size.name }}, Тесто :
-                      {{ pizza.dough.name.toLowerCase() }}
-                    </li>
-                    <li>Соус: {{ pizza.sauce.name.toLowerCase() }}</li>
-                    <li>Начинка: {{ getIngredientNames(pizza) }}</li>
-                  </ul>
-                </div>
-              </div>
-
-              <CartItemCounter
-                :min="0"
-                :current="pizza.count"
-                @increase="increasePizzaCount(pizza.id)"
-                @decrease="decreaseOrRemovePizza(pizza.id)"
-              />
-              <div class="cart-list__price">
-                <b> x {{ pizza.price }} ₽ </b>
-              </div>
-
-              <div class="cart-list__button">
-                <button
-                  @click="editPizza(pizza.id)"
-                  type="button"
-                  class="cart-list__edit"
-                >
-                  Изменить
-                </button>
-              </div>
-            </li>
-          </ul> -->
-
-          <div class="cart__additional">
-            <ul class="additional-list">
-              <li class="additional-list__item sheet">
-                <p class="additional-list__description">
-                  <img
-                    src="img/cola.svg"
-                    width="39"
-                    height="60"
-                    alt="Coca-Cola 0,5 литра"
-                  />
-                  <span>Coca-Cola 0,5 литра</span>
-                </p>
-
-                <div class="additional-list__wrapper">
-                  <div class="counter additional-list__counter">
-                    <button
-                      type="button"
-                      class="counter__button counter__button--minus"
-                    >
-                      <span class="visually-hidden">Меньше</span>
-                    </button>
-                    <input
-                      type="text"
-                      name="counter"
-                      class="counter__input"
-                      value="2"
-                    />
-                    <button
-                      type="button"
-                      class="
-                        counter__button
-                        counter__button--plus
-                        counter__button--orange
-                      "
-                    >
-                      <span class="visually-hidden">Больше</span>
-                    </button>
-                  </div>
-
-                  <div class="additional-list__price">
-                    <b>× 56 ₽</b>
-                  </div>
-                </div>
-              </li>
-              <li class="additional-list__item sheet">
-                <p class="additional-list__description">
-                  <img
-                    src="img/sauce.svg"
-                    width="39"
-                    height="60"
-                    alt="Острый соус"
-                  />
-                  <span>Острый соус</span>
-                </p>
-
-                <div class="additional-list__wrapper">
-                  <div class="counter additional-list__counter">
-                    <button
-                      type="button"
-                      class="counter__button counter__button--minus"
-                    >
-                      <span class="visually-hidden">Меньше</span>
-                    </button>
-                    <input
-                      type="text"
-                      name="counter"
-                      class="counter__input"
-                      value="2"
-                    />
-                    <button
-                      type="button"
-                      class="
-                        counter__button
-                        counter__button--plus
-                        counter__button--orange
-                      "
-                    >
-                      <span class="visually-hidden">Больше</span>
-                    </button>
-                  </div>
-
-                  <div class="additional-list__price">
-                    <b>× 30 ₽</b>
-                  </div>
-                </div>
-              </li>
-              <li class="additional-list__item sheet">
-                <p class="additional-list__description">
-                  <img
-                    src="img/potato.svg"
-                    width="39"
-                    height="60"
-                    alt="Картошка из печи"
-                  />
-                  <span>Картошка из печи</span>
-                </p>
-
-                <div class="additional-list__wrapper">
-                  <div class="counter additional-list__counter">
-                    <button
-                      type="button"
-                      class="counter__button counter__button--minus"
-                    >
-                      <span class="visually-hidden">Меньше</span>
-                    </button>
-                    <input
-                      type="text"
-                      name="counter"
-                      class="counter__input"
-                      value="2"
-                    />
-                    <button
-                      type="button"
-                      class="
-                        counter__button
-                        counter__button--plus
-                        counter__button--orange
-                      "
-                    >
-                      <span class="visually-hidden">Больше</span>
-                    </button>
-                  </div>
-
-                  <div class="additional-list__price">
-                    <b>× 56 ₽</b>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <CartPizzaList />
+          <CartAdditionalItems />
 
           <div class="cart__form">
             <div class="cart-form">
@@ -254,38 +80,17 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import CartListSheet from "@/modules/cart/components/CartListSheet";
+import { mapGetters } from "vuex";
+import CartPizzaList from "@/modules/cart/components/CartPizzaList";
+import CartAdditionalItems from "@/modules/cart/components/CartAdditionalItems";
 export default {
   name: "Cart",
   components: {
-    CartListSheet,
+    CartPizzaList,
+    CartAdditionalItems,
   },
   computed: {
-    ...mapState("Cart", ["pizzas"]),
     ...mapGetters("Cart", ["cartPrice"]),
-  },
-  methods: {
-    getIngredientNames(pizza) {
-      return pizza.ingredients.map((i) => i.name.toLowerCase()).join(",");
-    },
-    increasePizzaCount(pizzaId) {
-      this.$store.commit("Cart/increasePizzaCount", pizzaId);
-    },
-    decreaseOrRemovePizza(pizzaId) {
-      const pizza = this.pizzas.find((x) => x.id === pizzaId);
-      if (pizza.count > 1) {
-        this.$store.commit("Cart/decreasePizzaCount", pizzaId);
-      } else {
-        this.$store.commit("Cart/removePizza", pizzaId);
-      }
-    },
-    editPizza(pizzaId) {
-      const pizza = this.pizzas.find((x) => x.id === pizzaId);
-      this.$store.commit("Builder/setState", pizza);
-      this.$store.commit("Cart/removePizza", pizzaId);
-      this.$router.push("/");
-    },
   },
 };
 </script>
