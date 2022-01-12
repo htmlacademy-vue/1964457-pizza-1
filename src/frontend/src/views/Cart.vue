@@ -6,13 +6,16 @@
           <div class="cart__title">
             <h1 class="title title--big">Корзина</h1>
           </div>
-
-          <!-- <div class="sheet cart__empty">
-          <p>В корзине нет ни одного товара</p>
-         </div> -->
-          <CartPizzaList />
-          <CartAdditionalItems />
-          <CartAddressForm />
+          <div v-if="isCartEmpty">
+            <div class="sheet cart__empty">
+              <p>В корзине нет ни одного товара</p>
+            </div>
+          </div>
+          <div v-else>
+            <CartPizzaList />
+            <CartAdditionalItems />
+            <CartAddressForm />
+          </div>
         </div>
       </main>
       <section class="footer">
@@ -37,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import CartPizzaList from "@/modules/cart/components/CartPizzaList";
 import CartAdditionalItems from "@/modules/cart/components/CartAdditionalItems";
 import CartAddressForm from "@/modules/cart/components/CartAddressForm";
@@ -50,6 +53,10 @@ export default {
   },
   computed: {
     ...mapGetters("Cart", ["cartPrice"]),
+    ...mapState("Cart", ["pizzas", "additionalItems"]),
+    isCartEmpty() {
+      return this.pizzas.length === 0 && this.additionalItems.length === 0;
+    },
   },
 };
 </script>

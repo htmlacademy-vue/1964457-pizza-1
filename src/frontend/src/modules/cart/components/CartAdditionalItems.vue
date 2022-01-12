@@ -23,7 +23,7 @@
 
 <script>
 import { mapState } from "vuex";
-import CartAdditionalItemCounter from "@/common/components/CartAdditionalItemCounter";
+import CartAdditionalItemCounter from "./CartAdditionalItemCounter.vue";
 export default {
   name: "CartAdditionalItems",
   components: {

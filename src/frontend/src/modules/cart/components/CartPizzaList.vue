@@ -47,7 +47,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import CartItemCounter from "@/common/components/CartItemCounter";
+import CartItemCounter from "./CartItemCounter.vue";
 export default {
   name: "CartPizzaList",
   components: {
