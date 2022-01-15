@@ -4,7 +4,7 @@
       <h2 class="title title--small sheet__title">Выберите тесто</h2>
       <div class="sheet__content dough">
         <label
-          v-for="dough in doughs"
+          v-for="dough in pizza.dough"
           :key="dough.id"
           class="dough__input"
           :class="getClassNameForDough(dough.name)"
@@ -14,8 +14,7 @@
             name="dough"
             :value="getInputValueForDough(dough.name)"
             :checked="selectedDough.id === dough.id"
-            :obj="dough"
-            @updateSelected="updateSelectedDough"
+            @updateSelected="updateSelected(dough)"
           />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
@@ -26,6 +25,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import RadioButton from "@/common/components/RadioButton";
 
 export default {
@@ -33,15 +33,8 @@ export default {
   components: {
     RadioButton,
   },
-  props: {
-    doughs: {
-      type: Array,
-      required: true,
-    },
-    selectedDough: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapState("Builder", ["pizza", "selectedDough"]),
   },
   methods: {
     getClassNameForDough(doughName) {
@@ -64,8 +57,8 @@ export default {
           return "";
       }
     },
-    updateSelectedDough(dough) {
-      this.$emit("updateSelectedDough", dough);
+    updateSelected(dough) {
+      this.$store.commit("Builder/changeSelectedDough", dough);
     },
   },
 };

@@ -9,15 +9,14 @@
 
           <label
             class="radio ingredients__input"
-            v-for="sauce in sauces"
+            v-for="sauce in pizza.sauces"
             :key="sauce.id"
           >
             <RadioButton
               name="sauce"
               :value="getInputValueForSauce(sauce.name)"
               :checked="sauce.id === selectedSauce.id"
-              :obj="sauce"
-              @updateSelected="updateSelectedSauce"
+              @updateSelected="updateSelectedSauce(sauce)"
             />
             <span>{{ sauce.name }}</span>
           </label>
@@ -28,7 +27,7 @@
 
           <ul class="ingredients__list">
             <li
-              v-for="ingredient in ingredientsSorted"
+              v-for="ingredient in pizza.ingredients"
               :key="ingredient.id"
               class="ingredients__item"
             >
@@ -37,12 +36,11 @@
                 :draggable="ingredients[ingredient.id].count < 3"
               />
               <ItemCounter
-                :obj="ingredient"
                 :max="3"
                 :min="0"
                 :current="ingredients[ingredient.id].count"
-                @increase="addIngredient"
-                @decrease="removeIngredient"
+                @increase="addIngredient(ingredient.id)"
+                @decrease="removeIngredient(ingredient.id)"
               />
             </li>
           </ul>
@@ -53,6 +51,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import RadioButton from "@/common/components/RadioButton";
 import SelectorItem from "@/common/components/SelectorItem";
 import ItemCounter from "@/common/components/ItemCounter";
@@ -63,20 +63,6 @@ export default {
     RadioButton,
     SelectorItem,
     ItemCounter,
-  },
-  props: {
-    ingredients: {
-      type: Object,
-      requried: true,
-    },
-    sauces: {
-      type: Array,
-      requried: true,
-    },
-    selectedSauce: {
-      type: Object,
-      requried: true,
-    },
   },
   methods: {
     getInputValueForSauce(sauceName) {
@@ -90,21 +76,17 @@ export default {
       }
     },
     updateSelectedSauce(sauce) {
-      this.$emit("updateSelectedSauce", sauce);
+      this.$store.commit("Builder/changeSelectedSauce", sauce);
     },
-    addIngredient(ingredient) {
-      this.$emit("addIngredient", ingredient);
+    addIngredient(ingredientId) {
+      this.$store.commit("Builder/addIngredient", ingredientId);
     },
-    removeIngredient(ingredient) {
-      this.$emit("removeIngredient", ingredient);
+    removeIngredient(ingredientId) {
+      this.$store.commit("Builder/removeIngredient", ingredientId);
     },
   },
   computed: {
-    ingredientsSorted() {
-      return Object.values(this.ingredients).sort(function (a, b) {
-        a.id - b.id;
-      });
-    },
+    ...mapState("Builder", ["pizza", "selectedSauce", "ingredients"]),
   },
 };
 </script>

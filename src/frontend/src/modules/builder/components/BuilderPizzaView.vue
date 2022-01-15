@@ -29,16 +29,12 @@
       </div>
     </div>
 
-    <BuilderPriceCounter
-      :totalPrice="totalPrice"
-      :pizzaName="pizzaName"
-      :ingredients="ingredients"
-      @addToCart="addToCart"
-    />
+    <BuilderPriceCounter :pizzaName="pizzaName" @addToCart="addToCart" />
   </div>
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
 import BuilderPriceCounter from "./BuilderPriceCounter";
 
 export default {
@@ -46,29 +42,7 @@ export default {
   components: {
     BuilderPriceCounter,
   },
-  data() {
-    return {
-      pizzaName: "",
-    };
-  },
-  props: {
-    ingredients: {
-      type: Object,
-      required: true,
-    },
-    totalPrice: {
-      type: Number,
-      required: true,
-    },
-    selectedDough: {
-      type: Object,
-      required: true,
-    },
-    selectedSauce: {
-      type: Object,
-      required: true,
-    },
-  },
+
   methods: {
     getFilingClassName(ingredient) {
       const englishName = ingredient.image
@@ -84,24 +58,56 @@ export default {
           return `pizza__filling--${englishName} pizza__filling--third`;
       }
     },
+
     addToCart() {
-      this.pizzaName = "";
-      this.$emit(`addToCart`);
+      const payload = {
+        id: this.pizzaId,
+        name: this.pizzaName,
+        sauce: this.selectedSauce,
+        dough: this.selectedDough,
+        size: this.selectedSize,
+        ingredients: this.selectedIngredients,
+        price: this.pizzaPrice,
+        count: this.pizzaCount,
+      };
+      if (payload.id === 0) {
+        // we adding new pizza
+        this.$store.commit("Cart/addPizza", payload);
+      } else {
+        // we adding existing pizza
+        this.$store.commit("Cart/updatePizza", payload);
+      }
+
+      this.$store.commit("Builder/resetState");
     },
     dropIngredient(evt) {
       const ingredientId = evt.dataTransfer.getData("ingredientId");
-      this.$emit("addIngredient", this.ingredients[ingredientId]);
+      this.$store.commit("Builder/addIngredient", ingredientId);
     },
   },
   computed: {
+    ...mapState("Builder", [
+      "selectedDough",
+      "selectedSauce",
+      "selectedSize",
+      "pizzaName",
+      "pizzaId",
+      "pizzaCount",
+    ]),
+    ...mapGetters("Builder", ["selectedIngredients", "pizzaPrice"]),
     foundationClassName() {
       const dough = this.selectedDough.name === "Толстое" ? "big" : "small";
       const sauce =
         this.selectedSauce.name === "Томатный" ? "tomato" : "creamy";
       return `pizza--foundation--${dough}-${sauce}`;
     },
-    selectedIngredients() {
-      return Object.values(this.ingredients).filter((i) => i.count > 0);
+    pizzaName: {
+      get() {
+        return this.$store.state.Builder.pizzaName;
+      },
+      set(value) {
+        this.$store.commit("Builder/setPizzaName", value);
+      },
     },
   },
 };

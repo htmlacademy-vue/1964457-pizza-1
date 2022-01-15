@@ -1,6 +1,6 @@
 <template>
   <div class="app-layout">
-    <AppLayoutHeader :cartPrice="cartPrice" />
+    <AppLayoutHeader />
     <slot />
   </div>
 </template>
@@ -12,16 +12,6 @@ export default {
   name: "AppLayoutMain",
   components: {
     AppLayoutHeader,
-  },
-  data() {
-    return {
-      cartPrice: 0,
-    };
-  },
-  methods: {
-    addToCart(totalPrice) {
-      this.cartPrice += totalPrice;
-    },
   },
 };
 </script>
