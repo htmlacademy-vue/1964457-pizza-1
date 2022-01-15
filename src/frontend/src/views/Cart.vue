@@ -36,7 +36,7 @@
           >
         </div>
         <p class="footer__text">
-          Перейти к конструктору<br />чтоб собрать ещё одну пиццу
+          Перейти к конструктору<br />чтобы собрать ещё одну пиццу
         </p>
         <div class="footer__price">
           <b>Итого: {{ cartPrice }} ₽</b>
@@ -73,7 +73,7 @@ export default {
     ...mapGetters("Cart", ["cartPrice"]),
     ...mapState("Cart", ["pizzas", "additionalItems"]),
     isCartEmpty() {
-      return this.pizzas.length === 0 && this.additionalItems.length === 0;
+      return this.pizzas.length === 0;
     },
   },
   methods: {

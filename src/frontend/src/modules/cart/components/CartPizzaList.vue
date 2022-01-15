@@ -23,7 +23,6 @@
       </div>
 
       <CartItemCounter
-        :min="0"
         :current="pizza.count"
         @increase="increasePizzaCount(pizza.id)"
         @decrease="decreaseOrRemovePizza(pizza.id)"
@@ -70,12 +69,15 @@ export default {
         this.$store.commit("Cart/decreasePizzaCount", pizzaId);
       } else {
         this.$store.commit("Cart/removePizza", pizzaId);
+        if (this.pizzas.length === 0) {
+          // We`ve removed last pizza. Cleaning up additional items from cart
+          this.$store.commit("Cart/resetState");
+        }
       }
     },
     editPizza(pizzaId) {
       const pizza = this.pizzas.find((x) => x.id === pizzaId);
       this.$store.commit("Builder/setState", pizza);
-      this.$store.commit("Cart/removePizza", pizzaId);
       this.$router.push("/");
     },
   },

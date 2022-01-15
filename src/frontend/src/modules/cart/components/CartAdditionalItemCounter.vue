@@ -4,6 +4,7 @@
       <button
         type="button"
         class="counter__button counter__button--minus"
+        :disabled="disabled"
         @click="decrease"
       >
         <span class="visually-hidden">Меньше</span>
@@ -45,6 +46,9 @@ export default {
   computed: {
     price() {
       return this.item.price * this.item.count;
+    },
+    disabled() {
+      return this.item.count <= this.min;
     },
   },
   methods: {

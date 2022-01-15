@@ -38,10 +38,8 @@ export default {
     },
     decreaseOrRemoveItem(itemId) {
       const item = this.additionalItems.find((x) => x.id === itemId);
-      if (item.count > 1) {
+      if (item.count >= 1) {
         this.$store.commit("Cart/decreaseAdditionalItemCount", itemId);
-      } else {
-        this.$store.commit("Cart/removeAdditionalItem", itemId);
       }
     },
   },

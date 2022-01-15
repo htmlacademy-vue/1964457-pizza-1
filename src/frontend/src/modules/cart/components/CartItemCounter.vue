@@ -22,10 +22,6 @@
 export default {
   name: "CartItemCounter",
   props: {
-    min: {
-      type: Number,
-      required: true,
-    },
     current: {
       type: Number,
       default: 0,

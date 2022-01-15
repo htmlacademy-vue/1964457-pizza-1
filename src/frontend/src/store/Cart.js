@@ -1,4 +1,5 @@
 import misc from "@/static/misc.json";
+import Vue from "vue";
 
 const initAdditionalItems = () => {
   return misc.map((i) => ({
@@ -6,7 +7,7 @@ const initAdditionalItems = () => {
     name: i.name,
     image: i.image,
     price: i.price,
-    count: 1,
+    count: 0,
   }));
 };
 
@@ -40,18 +41,17 @@ export default {
   },
   mutations: {
     addPizza(state, payload) {
-      const pizzaId = state.pizzaCounter + 1;
-      state.pizzas.push({
-        id: pizzaId,
-        name: payload.name,
-        sauce: payload.sauce,
-        size: payload.size,
-        dough: payload.dough,
-        ingredients: payload.ingredients,
-        price: payload.price,
-        count: 1,
-      });
+      payload.id = state.pizzaCounter + 1;
+      state.pizzas.push(payload);
       state.pizzaCounter++;
+    },
+    updatePizza(state, payload) {
+      const index = state.pizzas.findIndex((x) => x.id === payload.id);
+      if (index === -1) {
+        console.error(`Cant find pizza id ${payload.id} in state.pizzas`);
+      } else {
+        Vue.set(state.pizzas, index, payload);
+      }
     },
     removePizza(state, payload) {
       const index = state.pizzas.findIndex((x) => x.id === payload);
@@ -64,12 +64,6 @@ export default {
     },
     decreasePizzaCount(state, payload) {
       state.pizzas.find((x) => x.id === payload).count--;
-    },
-    removeAdditionalItem(state, payload) {
-      const index = state.additionalItems.findIndex((x) => x.id === payload);
-      if (index > -1) {
-        state.additionalItems.splice(index, 1);
-      }
     },
     increaseAdditionalItemCount(state, payload) {
       state.additionalItems.find((x) => x.id === payload).count++;
