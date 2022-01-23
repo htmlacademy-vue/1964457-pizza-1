@@ -1,7 +1,6 @@
-import misc from "@/static/misc.json";
 import Vue from "vue";
 
-const initAdditionalItems = () => {
+const initAdditionalItems = (misc) => {
   return misc.map((i) => ({
     id: i.id,
     name: i.name,
@@ -11,17 +10,13 @@ const initAdditionalItems = () => {
   }));
 };
 
-const getInitialState = () => {
-  return {
-    pizzas: [],
-    additionalItems: initAdditionalItems(),
-    pizzaCounter: 0,
-  };
-};
-
 export default {
   namespaced: true,
-  state: getInitialState(),
+  state: {
+    pizzas: [],
+    additionalItems: [],
+    pizzaCounter: 0,
+  },
   getters: {
     cartPrice(state) {
       let pizzasPrice = 0;
@@ -40,6 +35,9 @@ export default {
     },
   },
   mutations: {
+    initState(state, payload) {
+      state.additionalItems = initAdditionalItems(payload);
+    },
     addPizza(state, payload) {
       payload.id = state.pizzaCounter + 1;
       state.pizzas.push(payload);
@@ -72,7 +70,13 @@ export default {
       state.additionalItems.find((x) => x.id === payload).count--;
     },
     resetState(state) {
-      Object.assign(state, getInitialState());
+      state.pizzas = [];
+      state.additionalItems.forEach((el) => {
+        if (el.count > 0) {
+          el.count = 0;
+        }
+      });
+      state.pizzaCounter = 0;
     },
   },
   actions: {},

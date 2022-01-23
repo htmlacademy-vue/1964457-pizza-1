@@ -14,5 +14,6 @@ export const createResources = () => {
     [resources.MISC]: new ReadOnlyApiService(resources.MISC),
     [resources.ORDERS]: new CrudApiService(resources.ORDERS),
     [resources.SAUCES]: new ReadOnlyApiService(resources.SAUCES),
+    [resources.SIZES]: new ReadOnlyApiService(resources.SIZES),
   };
 };

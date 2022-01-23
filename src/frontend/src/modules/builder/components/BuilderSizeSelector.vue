@@ -5,7 +5,7 @@
 
       <div class="sheet__content diameter">
         <label
-          v-for="size in pizza.sizes"
+          v-for="size in sizes"
           :key="size.id"
           class="diameter__input"
           :class="getClassNameForDiameter(size.name)"
@@ -34,7 +34,7 @@ export default {
     RadioButton,
   },
   computed: {
-    ...mapState("Builder", ["pizza", "selectedSize"]),
+    ...mapState("Builder", ["sizes", "selectedSize"]),
   },
   methods: {
     getClassNameForDiameter(diameter) {

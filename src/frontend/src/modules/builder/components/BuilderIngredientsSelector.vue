@@ -9,7 +9,7 @@
 
           <label
             class="radio ingredients__input"
-            v-for="sauce in pizza.sauces"
+            v-for="sauce in sauces"
             :key="sauce.id"
           >
             <RadioButton
@@ -27,7 +27,7 @@
 
           <ul class="ingredients__list">
             <li
-              v-for="ingredient in pizza.ingredients"
+              v-for="ingredient in ingredients"
               :key="ingredient.id"
               class="ingredients__item"
             >
@@ -86,7 +86,7 @@ export default {
     },
   },
   computed: {
-    ...mapState("Builder", ["pizza", "selectedSauce", "ingredients"]),
+    ...mapState("Builder", ["sauces", "selectedSauce", "ingredients"]),
   },
 };
 </script>

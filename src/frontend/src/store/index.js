@@ -10,7 +10,17 @@ export default new Vuex.Store({
   state: {},
   getters: {},
   mutations: {},
-  actions: {},
+  actions: {
+    async init({ commit }) {
+      const sizes = await this.$api.sizes.query();
+      const dough = await this.$api.dough.query();
+      const ingredients = await this.$api.ingredients.query();
+      const misc = await this.$api.misc.query();
+      const sauces = await this.$api.sauces.query();
+      commit("Builder/initState", { sizes, dough, ingredients, misc, sauces });
+      commit("Cart/initState", misc);
+    },
+  },
   plugins: [VuexPlugins],
   modules: {
     Cart,
