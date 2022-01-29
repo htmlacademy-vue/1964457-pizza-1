@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Cart from "./Cart.js";
 import Builder from "./Builder.js";
+import Auth from "./Auth.js";
 import VuexPlugins from "@/plugins/vuexPlugins";
 
 Vue.use(Vuex);
@@ -25,5 +26,6 @@ export default new Vuex.Store({
   modules: {
     Cart,
     Builder,
+    Auth,
   },
 });
