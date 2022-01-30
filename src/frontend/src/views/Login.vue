@@ -67,6 +67,7 @@ export default {
           password: this.password,
         });
         if (this.isAuthenticated) {
+          this.$store.dispatch("Profile/initAddresses");
           await this.$router.push("/");
         } else {
           window.alert("Authentication failure");

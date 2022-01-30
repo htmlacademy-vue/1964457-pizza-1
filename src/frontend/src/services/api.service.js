@@ -44,6 +44,10 @@ export class CrudApiService {
     this.#resource = resource;
   }
 
+  async query(config = {}) {
+    const { data } = await axios.get(this.#resource, config);
+    return data;
+  }
   async post(entity) {
     const { data } = await axios.post(this.#resource, entity);
     return data;

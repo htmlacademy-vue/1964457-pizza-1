@@ -10,6 +10,7 @@ import {
   middlewarePipeline,
   nonAuthenticatedOnly,
   authenticatedOnly,
+  profile,
 } from "@/middlewares";
 import store from "@/store";
 
@@ -48,7 +49,7 @@ const routes = [
     name: "Orders",
     component: Orders,
     meta: {
-      layout: "AppLayoutMain",
+      layout: "AppLayoutMainWithSidebar",
       middlewares: [auth, authenticatedOnly],
     },
   },
@@ -57,8 +58,8 @@ const routes = [
     name: "Profile",
     component: Profile,
     meta: {
-      layout: "AppLayoutMain",
-      middlewares: [auth, authenticatedOnly],
+      layout: "AppLayoutMainWithSidebar",
+      middlewares: [auth, authenticatedOnly, profile],
     },
   },
 ];
