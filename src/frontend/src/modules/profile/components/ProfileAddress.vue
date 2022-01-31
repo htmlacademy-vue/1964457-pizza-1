@@ -4,7 +4,7 @@
       <div class="address-form__header">
         <b>{{ name }}</b>
         <div class="address-form__edit">
-          <button type="button" class="icon">
+          <button @click="$emit(`edit`)" type="button" class="icon">
             <span class="visually-hidden">Изменить адрес</span>
           </button>
         </div>
@@ -46,7 +46,6 @@ export default {
   },
   computed: {
     fullAddress() {
-      console.log([this.street, this.building, this.flat]);
       const address = [this.street, this.building, this.flat]
         .filter((i) => i.length > 0)
         .join(", ");
