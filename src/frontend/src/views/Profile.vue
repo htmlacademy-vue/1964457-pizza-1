@@ -3,7 +3,7 @@
     <ProfileUserInfo />
     <div v-for="a in addresses" :key="a.id">
       <ProfileAddress
-        @edit="editAddress"
+        @edit="openAddressForm(a, true)"
         :building="a.building"
         :comment="a.comment"
         :flat="a.flat"
@@ -13,12 +13,21 @@
       />
     </div>
     <div class="layout__button">
-      <button @click="addAddress" type="button" class="button button--border">
+      <button
+        @click="openAddressForm({}, false)"
+        type="button"
+        class="button button--border"
+      >
         Добавить новый адрес
       </button>
     </div>
     <div v-if="showAddressForm">
-      <ProfileAddressForm @close="closeAddressForm" />
+      <ProfileAddressForm
+        @addAddress="addAddress"
+        @updateAddress="updateAddress"
+        @deleteAddress="deleteAddress"
+        :address="addressToEdit"
+      />
     </div>
   </div>
 </template>
@@ -38,22 +47,62 @@ export default {
   data() {
     return {
       showAddressForm: false,
+      addressToEdit: {
+        id: -1,
+        name: "",
+        street: "",
+        building: "",
+        flat: "",
+        comment: "",
+      },
     };
   },
   methods: {
-    editAddress() {
+    resetAddressToEdit() {
+      this.addressToEdit = {
+        id: -1,
+        name: "",
+        street: "",
+        building: "",
+        flat: "",
+        comment: "",
+      };
+    },
+    openAddressForm(address, edit) {
+      if (edit) {
+        this.addressToEdit.id = address.id;
+        this.addressToEdit.name = address.name;
+        this.addressToEdit.street = address.street;
+        this.addressToEdit.building = address.building;
+        this.addressToEdit.flat = address.flat;
+        this.addressToEdit.comment = address.comment;
+      }
       this.showAddressForm = true;
     },
-    addAddress() {
-      this.showAddressForm = true;
-      console.log(this.showAddressForm);
+    async addAddress(address) {
+      let payload = Object.assign({}, address);
+      payload.userId = this.user.id;
+      delete payload.id;
+      await this.$store.dispatch("Profile/addAddress", payload);
+      this.resetAddressToEdit();
+      this.showAddressForm = false;
     },
-    closeAddressForm() {
+    async updateAddress(address) {
+      let payload = Object.assign({}, address);
+      payload.userId = this.user.id;
+      await this.$store.dispatch("Profile/updateAddress", payload);
+      this.resetAddressToEdit();
+      this.showAddressForm = false;
+    },
+    async deleteAddress(addressId) {
+      await this.$store.dispatch("Profile/deleteAddress", addressId);
+      this.resetAddressToEdit();
       this.showAddressForm = false;
     },
   },
   computed: {
     ...mapState("Profile", ["addresses"]),
+    ...mapState("Auth", ["user"]),
   },
 };
 </script>

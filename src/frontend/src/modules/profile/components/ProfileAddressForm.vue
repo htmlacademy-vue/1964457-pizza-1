@@ -10,7 +10,7 @@
             class="address-form address-form--opened sheet"
           >
             <div class="address-form__header">
-              <b>Адрес №1</b>
+              <b>{{ address.name }}</b>
             </div>
 
             <div class="address-form__wrapper">
@@ -18,6 +18,7 @@
                 <label class="input">
                   <span>Название адреса*</span>
                   <input
+                    v-model="address.name"
                     type="text"
                     name="addr-name"
                     placeholder="Введите название адреса"
@@ -31,6 +32,7 @@
                 <label class="input">
                   <span>Улица*</span>
                   <input
+                    v-model="address.street"
                     type="text"
                     name="addr-street"
                     placeholder="Введите название улицы"
@@ -42,6 +44,7 @@
                 <label class="input">
                   <span>Дом*</span>
                   <input
+                    v-model="address.building"
                     type="text"
                     name="addr-house"
                     placeholder="Введите номер дома"
@@ -53,6 +56,7 @@
                 <label class="input">
                   <span>Квартира</span>
                   <input
+                    v-model="address.flat"
                     type="text"
                     name="addr-apartment"
                     placeholder="Введите № квартиры"
@@ -63,6 +67,7 @@
                 <label class="input">
                   <span>Комментарий</span>
                   <input
+                    v-model="address.comment"
                     type="text"
                     name="addr-comment"
                     placeholder="Введите комментарий"
@@ -79,7 +84,7 @@
               >
                 Удалить
               </button>
-              <button @clicl="onSave" type="submit" class="button">
+              <button @click="onSave" type="submit" class="button">
                 Сохранить
               </button>
             </div>
@@ -92,15 +97,36 @@
 <script>
 export default {
   name: "ProfileAddressForm",
-  methods: {
-    onSubmit() {
-      this.$emit("close");
+  props: {
+    address: {
+      type: Object,
+      required: true,
     },
-    onSave() {
-      this.$emit("close");
+  },
+  methods: {
+    inputDataIsOk() {
+      return (
+        this.address.name.length > 0 &&
+        this.address.street.length > 0 &&
+        this.address.building.length > 0
+      );
+    },
+    async onSave() {
+      if (this.inputDataIsOk()) {
+        // editing existing address
+        if (this.address.id != -1) {
+          this.$emit("updateAddress", this.address);
+        } else {
+          // adding new address
+          this.$emit("addAddress", this.address);
+        }
+      }
+    },
+    onSubmit() {
+      this.$emit("submit");
     },
     onDelete() {
-      this.$emit("close");
+      this.$emit("deleteAddress", this.address.id);
     },
   },
 };
