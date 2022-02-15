@@ -16,6 +16,8 @@ export default {
     pizzas: [],
     additionalItems: [],
     pizzaCounter: 0,
+    phone: "",
+    newAddress: { street: "", building: "", flat: "" },
   },
   getters: {
     cartPrice(state) {
@@ -77,7 +79,20 @@ export default {
         }
       });
       state.pizzaCounter = 0;
+      state.phone = "";
+      state.newAddress = { street: "", building: "", flat: "" };
+    },
+    setPhone(state, payload) {
+      state.phone = payload;
+    },
+    newAddressSetStreet(state, payload) {
+      state.newAddress.street = payload;
+    },
+    newAddressSetBuilding(state, payload) {
+      state.newAddress.building = payload;
+    },
+    newAddressSetFlat(state, payload) {
+      state.newAddress.flat = payload;
     },
   },
-  actions: {},
 };
