@@ -40,9 +40,9 @@ export default {
       let addresses = [
         {
           name: "Заберу сам",
-          street: "Пиццерийский проезд",
-          building: "22",
-          comment: "Самовывоз",
+          street: "",
+          building: "",
+          comment: "",
           id: "self-delivery",
         },
         {
@@ -53,9 +53,7 @@ export default {
           id: "new-address",
         },
       ];
-      console.log(rootState);
       if (rootState.Auth.isAuthenticated) {
-        console.log();
         addresses = addresses.concat(rootState.Profile.addresses);
       }
       return addresses;
@@ -106,6 +104,7 @@ export default {
       state.pizzaCounter = 0;
       state.phone = "";
       state.newAddress = { street: "", building: "", flat: "" };
+      state.deliveryMethod = "self-delivery";
     },
     setPhone(state, payload) {
       state.phone = payload;

@@ -130,15 +130,18 @@ export default {
       };
     },
     getDeliveryAddress() {
-      if (this.deliveryMethod === "new-address") {
-        return this.newAddress;
+      let address = null;
+      if (this.deliveryMethod === "self-delivery") {
+        address = null;
+      } else if (this.deliveryMethod === "new-address") {
+        address = this.newAddress;
       } else {
-        let address = Object.assign(
-          this.addresses.find((e) => e.id === this.deliveryMethod)
-        );
-        delete address.id;
-        return address;
+        address = { id: this.deliveryMethod };
       }
+      if (address) {
+        address.flat = address.flat ? address.flat : "-";
+      }
+      return address;
     },
   },
 };

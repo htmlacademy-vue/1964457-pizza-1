@@ -13,10 +13,12 @@ export default {
       commit("setOrders", orders);
     },
     async submitOrder({ rootState, dispatch }, order) {
-      console.log(JSON.stringify(order));
       await this.$api.orders.post(order);
       if (rootState.Auth.isAuthenticated) {
         dispatch("initOrders");
+        if (rootState.Cart.deliveryMethod === "new-address") {
+          dispatch("Profile/initAddresses", null, { root: true });
+        }
       }
     },
   },

@@ -5,8 +5,8 @@
       <ProfileAddress
         @edit="openAddressForm(a, true)"
         :building="a.building"
-        :comment="a.comment"
-        :flat="a.flat"
+        :comment="a.comment ? a.comment : ''"
+        :flat="a.flat ? a.flat : ''"
         :id="a.id"
         :name="a.name"
         :street="a.street"
