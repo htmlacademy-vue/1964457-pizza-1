@@ -5,28 +5,34 @@
         <span class="cart-form__label">Получение заказа:</span>
 
         <select v-model="deliveryMethod" name="test" class="select">
-          <option value="1">Заберу сам</option>
-          <option value="2">Новый адрес</option>
-          <option value="3">Дом</option>
+          <option
+            v-for="address in addresses"
+            :key="address.id"
+            :value="address.id"
+          >
+            {{ address.name }}
+          </option>
+          >
         </select>
       </label>
 
       <label class="input input--big-label">
-        <span>Контактный телефон:</span>
+        <span>Контактный телефон*:</span>
         <input
           v-model="phone"
           type="text"
           name="tel"
           placeholder="+7 999-999-99-99"
+          required
         />
       </label>
-      <div v-if="deliveryMethod === '2'" class="cart-form__address">
+      <div v-if="deliveryMethod === 'new-address'" class="cart-form__address">
         <span class="cart-form__label">Новый адрес:</span>
 
         <div class="cart-form__input">
           <label class="input">
             <span>Улица*</span>
-            <input v-model="street" type="text" name="street" />
+            <input v-model="street" type="text" name="street" required />
           </label>
         </div>
 
@@ -48,16 +54,20 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "CartAddressForm",
-  data() {
-    return { deliveryMethod: "1" };
-  },
   components: {},
   computed: {
+    ...mapGetters("Cart", ["addresses"]),
     phone: {
       get() {
-        return this.$store.state.Cart.phone;
+        if (
+          this.$store.state.Cart.phone ||
+          !this.$store.state.Auth.isAuthenticated
+        ) {
+          return this.$store.state.Cart.phone;
+        } else return this.$store.state.Auth.user.phone;
       },
       set(value) {
         this.$store.commit("Cart/setPhone", value);
@@ -85,6 +95,14 @@ export default {
       },
       set(value) {
         this.$store.commit("Cart/newAddressSetFlat", value);
+      },
+    },
+    deliveryMethod: {
+      get() {
+        return this.$store.state.Cart.deliveryMethod;
+      },
+      set(value) {
+        this.$store.commit("Cart/setDeliveryMethod", value);
       },
     },
   },

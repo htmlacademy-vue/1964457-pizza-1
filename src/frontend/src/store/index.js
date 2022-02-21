@@ -4,6 +4,7 @@ import Cart from "./Cart.js";
 import Builder from "./Builder.js";
 import Auth from "./Auth.js";
 import Profile from "./Profile.js";
+import Orders from "./Orders.js";
 
 import VuexPlugins from "@/plugins/vuexPlugins";
 
@@ -14,7 +15,7 @@ export default new Vuex.Store({
   getters: {},
   mutations: {},
   actions: {
-    async init({ commit }) {
+    async init({ commit, rootState, dispatch }) {
       const sizes = await this.$api.sizes.query();
       const dough = await this.$api.dough.query();
       const ingredients = await this.$api.ingredients.query();
@@ -22,6 +23,10 @@ export default new Vuex.Store({
       const sauces = await this.$api.sauces.query();
       commit("Builder/initState", { sizes, dough, ingredients, misc, sauces });
       commit("Cart/initState", misc);
+      if (rootState.Auth.isAuthenticated) {
+        dispatch("Orders/initOrders");
+        dispatch("Profile/initAddresses");
+      }
     },
   },
   plugins: [VuexPlugins],
@@ -30,5 +35,6 @@ export default new Vuex.Store({
     Builder,
     Auth,
     Profile,
+    Orders,
   },
 });

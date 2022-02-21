@@ -16,8 +16,9 @@ export default {
     pizzas: [],
     additionalItems: [],
     pizzaCounter: 0,
-    phone: "",
     newAddress: { street: "", building: "", flat: "" },
+    deliveryMethod: "self-delivery",
+    phone: "",
   },
   getters: {
     cartPrice(state) {
@@ -34,6 +35,30 @@ export default {
           .reduce((a, b) => a + b);
       }
       return pizzasPrice + additionalItemsPrice;
+    },
+    addresses(state, getters, rootState) {
+      let addresses = [
+        {
+          name: "Заберу сам",
+          street: "Пиццерийский проезд",
+          building: "22",
+          comment: "Самовывоз",
+          id: "self-delivery",
+        },
+        {
+          name: "Новый адрес",
+          street: "",
+          building: "",
+          comment: "",
+          id: "new-address",
+        },
+      ];
+      console.log(rootState);
+      if (rootState.Auth.isAuthenticated) {
+        console.log();
+        addresses = addresses.concat(rootState.Profile.addresses);
+      }
+      return addresses;
     },
   },
   mutations: {
@@ -93,6 +118,9 @@ export default {
     },
     newAddressSetFlat(state, payload) {
       state.newAddress.flat = payload;
+    },
+    setDeliveryMethod(state, payload) {
+      state.deliveryMethod = payload;
     },
   },
 };

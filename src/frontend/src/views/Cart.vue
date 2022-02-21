@@ -43,7 +43,9 @@
         </div>
 
         <div class="footer__submit">
-          <button type="submit" class="button">Оформить заказ</button>
+          <button type="submit" class="button" :disabled="isCartEmpty">
+            Оформить заказ
+          </button>
         </div>
       </section>
     </form>
@@ -70,8 +72,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("Cart", ["cartPrice"]),
-    ...mapState("Cart", ["pizzas", "additionalItems"]),
+    ...mapGetters("Cart", ["cartPrice", "addresses"]),
+    ...mapState("Cart", [
+      "pizzas",
+      "additionalItems",
+      "deliveryMethod",
+      "newAddress",
+    ]),
     ...mapState("Auth", ["isAuthenticated", "user"]),
     isCartEmpty() {
       return this.pizzas.length === 0;
@@ -80,38 +87,31 @@ export default {
       return this.$store.state.Cart.phone;
     },
     street() {
-      return this.$store.state.Cart.newAddress.street;
+      return this.newAddress.street;
     },
     building() {
-      return this.$store.state.Cart.newAddress.building;
+      return this.newAddress.building;
     },
     flat() {
-      return this.$store.state.Cart.newAddress.flat;
+      return this.newAddress.flat;
     },
   },
   methods: {
     async submitOrder() {
-      const payload = {
-        userid: this.isAuthenticated ? this.user.id : null,
+      let payload = {
+        userId: this.isAuthenticated ? this.user.id : null,
         phone: this.phone,
-        address: {
-          street: this.street,
-          building: this.building,
-          flat: this.flat,
-          commend: "",
-        },
+        address: this.getDeliveryAddress(),
         pizzas: this.pizzas.map((p) => this.getPizzaPayload(p)),
         misc: this.additionalItems
           .filter((i) => i.count > 0)
           .map((i) => ({ miscId: i.id, quantity: i.count })),
       };
-      console.log(payload);
-      await this.$store.dispatch("Cart/submitOrder", payload);
+      await this.$store.dispatch("Orders/submitOrder", payload);
       this.showPopup = true;
     },
     resetState() {
       this.showPopup = false;
-      this.newAddress = { street: "", building: "", flat: "" };
       this.$store.commit("Cart/resetState");
       this.$store.commit("Builder/resetState");
       this.$router.push("/");
@@ -125,9 +125,20 @@ export default {
         quantity: pizza.count,
         ingredients: pizza.ingredients.map((i) => ({
           ingredientId: i.id,
-          count: i.count,
+          quantity: i.count,
         })),
       };
+    },
+    getDeliveryAddress() {
+      if (this.deliveryMethod === "new-address") {
+        return this.newAddress;
+      } else {
+        let address = Object.assign(
+          this.addresses.find((e) => e.id === this.deliveryMethod)
+        );
+        delete address.id;
+        return address;
+      }
     },
   },
 };

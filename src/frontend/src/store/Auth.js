@@ -1,6 +1,9 @@
 export default {
   namespaced: true,
-  state: { isAuthenticated: false, user: null },
+  state: {
+    isAuthenticated: false,
+    user: { avatar: "", email: "", id: "", name: "", phone: "" },
+  },
   getters: {},
   mutations: {
     setUser(state, payload) {
