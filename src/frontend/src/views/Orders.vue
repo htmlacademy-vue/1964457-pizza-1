@@ -3,203 +3,21 @@
     <div class="layout__title">
       <h1 class="title title--big">История заказов</h1>
     </div>
-
-    <section class="sheet order">
-      <div class="order__wrapper">
-        <div class="order__number">
-          <b>Заказ #11199929</b>
-        </div>
-
-        <div class="order__sum">
-          <span>Сумма заказа: 1564 ₽</span>
-        </div>
-
-        <div class="order__button">
-          <button type="button" class="button button--border">Удалить</button>
-        </div>
-        <div class="order__button">
-          <button type="button" class="button">Повторить</button>
-        </div>
-      </div>
-
+    <section v-for="order in orders" :key="order.id" class="sheet order">
+      <OrdersHeader :orderId="order.id" :orderPrice="getOrderPrice(order)" />
       <ul class="order__list">
-        <li class="order__item">
-          <div class="product">
-            <img
-              src="img/product.svg"
-              class="product__img"
-              width="56"
-              height="56"
-              alt="Капричоза"
-            />
-            <div class="product__text">
-              <h2>Капричоза</h2>
-              <ul>
-                <li>30 см, на тонком тесте</li>
-                <li>Соус: томатный</li>
-                <li>
-                  Начинка: грибы, лук, ветчина, пармезан, ананас, бекон, блю чиз
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <p class="order__price">782 ₽</p>
-        </li>
-        <li class="order__item">
-          <div class="product">
-            <img
-              src="img/product.svg"
-              class="product__img"
-              width="56"
-              height="56"
-              alt="Капричоза"
-            />
-            <div class="product__text">
-              <h2>Моя любимая</h2>
-              <ul>
-                <li>30 см, на тонком тесте</li>
-                <li>Соус: томатный</li>
-                <li>Начинка: грибы, лук, ветчина, пармезан, ананас</li>
-              </ul>
-            </div>
-          </div>
-
-          <p class="order__price">2х782 ₽</p>
-        </li>
+        <OrdersPizza
+          v-for="pizza in order.orderPizzas"
+          :key="pizza.id"
+          :pizza="pizza"
+        />
       </ul>
-
-      <ul class="order__additional">
-        <li>
-          <img
-            src="img/cola.svg"
-            width="20"
-            height="30"
-            alt="Coca-Cola 0,5 литра"
-          />
-          <p>
-            <span>Coca-Cola 0,5 литра</span>
-            <b>56 ₽</b>
-          </p>
-        </li>
-        <li>
-          <img src="img/sauce.svg" width="20" height="30" alt="Острый соус" />
-          <span>Острый соус <br />30 ₽</span>
-        </li>
-        <li>
-          <img
-            src="img/potato.svg"
-            width="20"
-            height="30"
-            alt="Картошка из печи"
-          />
-          <p>
-            <span>Картошка из печи</span>
-            <b>170 ₽</b>
-          </p>
-        </li>
-      </ul>
-
-      <p class="order__address">
-        Адрес доставки: Тест (или если адрес новый - писать целиком)
-      </p>
-    </section>
-
-    <section class="sheet order">
-      <div class="order__wrapper">
-        <div class="order__number">
-          <b>Заказ #11199929</b>
-        </div>
-
-        <div class="order__sum">
-          <span>Сумма заказа: 1564 ₽</span>
-        </div>
-
-        <div class="order__button">
-          <button type="button" class="button button--border">Удалить</button>
-        </div>
-        <div class="order__button">
-          <button type="button" class="button">Повторить</button>
-        </div>
-      </div>
-
-      <ul class="order__list">
-        <li class="order__item">
-          <div class="product">
-            <img
-              src="img/product.svg"
-              class="product__img"
-              width="56"
-              height="56"
-              alt="Капричоза"
-            />
-            <div class="product__text">
-              <h2>Капричоза</h2>
-              <p>
-                30 см, на тонком тесте<br />
-                Соус: томатный<br />
-                Начинка: грибы, лук, ветчина, пармезан, ананас
-              </p>
-            </div>
-          </div>
-
-          <p class="order__price">782 ₽</p>
-        </li>
-        <li class="order__item">
-          <div class="product">
-            <img
-              src="img/product.svg"
-              class="product__img"
-              width="56"
-              height="56"
-              alt="Капричоза"
-            />
-            <div class="product__text">
-              <h2>Моя любимая</h2>
-              <p>
-                30 см, на тонком тесте<br />
-                Соус: томатный<br />
-                Начинка: грибы, лук, ветчина, пармезан, ананас
-              </p>
-            </div>
-          </div>
-
-          <p class="order__price">2х782 ₽</p>
-        </li>
-      </ul>
-
-      <ul class="order__additional">
-        <li>
-          <img
-            src="img/cola.svg"
-            width="20"
-            height="30"
-            alt="Coca-Cola 0,5 литра"
-          />
-          <p>
-            <span>Coca-Cola 0,5 литра</span>
-            <b>56 ₽</b>
-          </p>
-        </li>
-        <li>
-          <img src="img/sauce.svg" width="20" height="30" alt="Острый соус" />
-          <p>
-            <span>Острый соус</span>
-            <b>30 ₽</b>
-          </p>
-        </li>
-        <li>
-          <img
-            src="img/potato.svg"
-            width="20"
-            height="30"
-            alt="Картошка из печи"
-          />
-          <p>
-            <span>Картошка из печи</span>
-            <b>170 ₽</b>
-          </p>
-        </li>
+      <ul v-if="'orderMisc' in order" class="order__additional">
+        <OrdersMisc
+          v-for="misc in order.orderMisc"
+          :key="misc.miscId"
+          :misc="misc"
+        />
       </ul>
 
       <p class="order__address">
@@ -210,8 +28,58 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import OrdersHeader from "@/modules/orders/components/OrdersHeader";
+import OrdersPizza from "@/modules/orders/components/OrdersPizza";
+import OrdersMisc from "@/modules/orders/components/OrdersMisc";
+
 export default {
   name: "Orders",
+  components: {
+    OrdersHeader,
+    OrdersPizza,
+    OrdersMisc,
+  },
+  methods: {
+    getPizzaPrice(pizza) {
+      const sauce = this.sauces.find((e) => pizza.sauceId === e.id);
+      const size = this.sizes.find((e) => pizza.sizeId === e.id);
+      const pizzaDough = this.dough.find((e) => pizza.doughId === e.id);
+      const ingredientIds = pizza.ingredients.map((e) => e.ingredientId);
+      const ingredientsPrice = this.ingredientsArray
+        .filter((e) => ingredientIds.includes(e.id))
+        .map((e) => e.price)
+        .reduce((a, b) => a + b, 0);
+      return (
+        (ingredientsPrice + pizzaDough.price + sauce.price) *
+        size.multiplier *
+        pizza.quantity
+      );
+    },
+    getMiscPrice(misc) {
+      return (
+        this.additionalItems.find((e) => misc.miscId === e.id).price *
+        misc.quantity
+      );
+    },
+    getOrderPrice(order) {
+      const pizzasPrice = order.orderPizzas
+        .map((e) => this.getPizzaPrice(e))
+        .reduce((a, b) => a + b, 0);
+      const miscPrice =
+        "orderMisc" in order
+          ? order.orderMisc
+              .map((e) => this.getMiscPrice(e))
+              .reduce((a, b) => a + b, 0)
+          : 0;
+      return pizzasPrice + miscPrice;
+    },
+  },
+  computed: {
+    ...mapState("Orders", ["orders"]),
+    ...mapState("Builder", ["dough", "sizes", "sauces", "ingredientsArray"]),
+    ...mapState("Cart", ["additionalItems"]),
+  },
 };
 </script>
 

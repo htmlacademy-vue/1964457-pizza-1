@@ -1,6 +1,6 @@
 export default {
   namespaced: true,
-  state: { order: null },
+  state: { orders: null },
   getters: {},
   mutations: {
     setOrders(state, payload) {
