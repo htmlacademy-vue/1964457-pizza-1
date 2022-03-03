@@ -9,7 +9,13 @@
     </div>
 
     <div class="order__button">
-      <button type="button" class="button button--border">Удалить</button>
+      <button
+        type="button"
+        class="button button--border"
+        @click="deleteOrder()"
+      >
+        Удалить
+      </button>
     </div>
     <div class="order__button">
       <button type="button" class="button">Повторить</button>
@@ -23,6 +29,11 @@ export default {
   props: {
     orderId: { type: Number, required: true },
     orderPrice: { type: Number, required: true },
+  },
+  methods: {
+    async deleteOrder() {
+      await this.$store.dispatch("Orders/deleteOrder", this.orderId);
+    },
   },
 };
 </script>

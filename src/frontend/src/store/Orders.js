@@ -21,5 +21,9 @@ export default {
         }
       }
     },
+    async deleteOrder({ dispatch }, orderId) {
+      await this.$api.orders.delete(orderId);
+      dispatch("initOrders");
+    },
   },
 };
