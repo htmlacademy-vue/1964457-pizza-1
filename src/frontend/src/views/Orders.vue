@@ -20,9 +20,7 @@
         />
       </ul>
 
-      <p class="order__address">
-        Адрес доставки: Тест (или если адрес новый - писать целиком)
-      </p>
+      <p class="order__address">Адрес доставки: {{ getOrderAddress(order) }}</p>
     </section>
   </div>
 </template>
@@ -73,6 +71,9 @@ export default {
               .reduce((a, b) => a + b, 0)
           : 0;
       return pizzasPrice + miscPrice;
+    },
+    getOrderAddress(order) {
+      return "orderAddress" in order ? order.orderAddress.name : "Самовывоз";
     },
   },
   computed: {
