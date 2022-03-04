@@ -73,7 +73,12 @@ export default {
       return pizzasPrice + miscPrice;
     },
     getOrderAddress(order) {
-      return "orderAddress" in order ? order.orderAddress.name : "Самовывоз";
+      if (!order.addressId) {
+        return "Самовывоз";
+      } else if ("orderAddress" in order) {
+        return order.orderAddress.name;
+      }
+      return "Удалено";
     },
   },
   computed: {

@@ -22,7 +22,8 @@ export default new Vuex.Store({
       const misc = await this.$api.misc.query();
       const sauces = await this.$api.sauces.query();
       commit("Builder/initState", { sizes, dough, ingredients, misc, sauces });
-      commit("Cart/initState", misc);
+      commit("Cart/setAdditionalItems", misc);
+      dispatch("Cart/setPhone");
       if (rootState.Auth.isAuthenticated) {
         dispatch("Orders/initOrders");
         dispatch("Profile/initAddresses");

@@ -62,12 +62,7 @@ export default {
     ...mapGetters("Cart", ["addresses"]),
     phone: {
       get() {
-        if (
-          this.$store.state.Cart.phone ||
-          !this.$store.state.Auth.isAuthenticated
-        ) {
-          return this.$store.state.Cart.phone;
-        } else return this.$store.state.Auth.user.phone;
+        return this.$store.state.Cart.phone;
       },
       set(value) {
         this.$store.commit("Cart/setPhone", value);

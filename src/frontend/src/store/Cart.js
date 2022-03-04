@@ -60,7 +60,7 @@ export default {
     },
   },
   mutations: {
-    initState(state, payload) {
+    setAdditionalItems(state, payload) {
       state.additionalItems = initAdditionalItems(payload);
     },
     addPizza(state, payload) {
@@ -94,7 +94,11 @@ export default {
     decreaseAdditionalItemCount(state, payload) {
       state.additionalItems.find((x) => x.id === payload).count--;
     },
-    resetState(state) {
+    setAdditionalItemCount(state, payload) {
+      state.additionalItems.find((x) => x.id === payload.id).count =
+        payload.count;
+    },
+    resetCart(state) {
       state.pizzas = [];
       state.additionalItems.forEach((el) => {
         if (el.count > 0) {
@@ -102,7 +106,6 @@ export default {
         }
       });
       state.pizzaCounter = 0;
-      state.phone = "";
       state.newAddress = { street: "", building: "", flat: "" };
       state.deliveryMethod = "self-delivery";
     },
@@ -120,6 +123,19 @@ export default {
     },
     setDeliveryMethod(state, payload) {
       state.deliveryMethod = payload;
+    },
+  },
+  actions: {
+    resetState({ commit, dispatch }) {
+      dispatch("setPhone");
+      commit("resetCart");
+    },
+    setPhone({ rootState, commit }) {
+      if (rootState.Auth.isAuthenticated) {
+        commit("setPhone", rootState.Auth.user.phone);
+      } else {
+        commit("setPhone", "");
+      }
     },
   },
 };

@@ -46,7 +46,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("Auth", ["isAuthenticated"]),
+    ...mapState("Auth", ["isAuthenticated", "user"]),
   },
   methods: {
     isEmailValid() {
@@ -69,6 +69,7 @@ export default {
         if (this.isAuthenticated) {
           this.$store.dispatch("Profile/initAddresses");
           this.$store.dispatch("Orders/initOrders");
+          this.$store.dispatch("Cart/setPhone");
           await this.$router.push("/");
         } else {
           window.alert("Authentication failure");

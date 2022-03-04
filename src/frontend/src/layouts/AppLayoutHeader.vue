@@ -42,6 +42,7 @@ export default {
   methods: {
     async logout() {
       await this.$store.dispatch("Auth/logout");
+      this.$store.commit("Cart/setPhone", "");
       await this.$router.push("/");
     },
   },

@@ -112,7 +112,7 @@ export default {
     },
     resetState() {
       this.showPopup = false;
-      this.$store.commit("Cart/resetState");
+      this.$store.dispatch("Cart/resetState");
       this.$store.commit("Builder/resetState");
       this.$router.push("/");
     },
