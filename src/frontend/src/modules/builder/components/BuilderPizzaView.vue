@@ -21,8 +21,7 @@
         <div class="pizza__wrapper">
           <div
             v-for="ingredient in selectedIngredients"
-            class="pizza__filling"
-            :class="getFilingClassName(ingredient)"
+            v-html="getIngredientElements(ingredient)"
             :key="ingredient.id"
           ></div>
         </div>
@@ -44,18 +43,21 @@ export default {
   },
 
   methods: {
-    getFilingClassName(ingredient) {
+    getIngredientElements(ingredient) {
       const englishName = ingredient.image
         .replace(".svg", "")
         .split("/")
         .at(-1);
       switch (ingredient.count) {
         case 1:
-          return `pizza__filling--${englishName}`;
+          return `<div class="pizza__filling pizza__filling--${englishName}"></div>`;
         case 2:
-          return `pizza__filling--${englishName} pizza__filling--second`;
+          return `<div class="pizza__filling pizza__filling--${englishName}"></div>
+                  <div class="pizza__filling pizza__filling--${englishName} pizza__filling--second"></div>`;
         case 3:
-          return `pizza__filling--${englishName} pizza__filling--third`;
+          return `<div class="pizza__filling pizza__filling--${englishName}"></div>
+                  <div class="pizza__filling pizza__filling--${englishName} pizza__filling--second"></div>
+                  <div class="pizza__filling pizza__filling--${englishName} pizza__filling--third"></div>`;
       }
     },
 
