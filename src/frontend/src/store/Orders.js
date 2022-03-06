@@ -9,21 +9,22 @@ export default {
   },
   actions: {
     async initOrders({ commit }) {
-      const orders = await this.$api.orders.query();
-      commit("setOrders", orders);
+      this.$api.orders
+        .query()
+        .then((response) => commit("setOrders", response));
     },
     async submitOrder({ rootState, dispatch }, order) {
-      await this.$api.orders.post(order);
-      if (rootState.Auth.isAuthenticated) {
-        dispatch("initOrders");
-        if (rootState.Cart.deliveryMethod === "new-address") {
-          dispatch("Profile/initAddresses", null, { root: true });
+      this.$api.orders.post(order).then(() => {
+        if (rootState.Auth.isAuthenticated) {
+          dispatch("initOrders");
+          if (rootState.Cart.deliveryMethod === "new-address") {
+            dispatch("Profile/initAddresses", null, { root: true });
+          }
         }
-      }
+      });
     },
     async deleteOrder({ dispatch }, orderId) {
-      await this.$api.orders.delete(orderId);
-      dispatch("initOrders");
+      this.$api.orders.delete(orderId).then(() => dispatch("initOrders"));
     },
   },
 };

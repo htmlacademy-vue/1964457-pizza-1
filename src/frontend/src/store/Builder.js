@@ -22,6 +22,7 @@ export default {
     selectedSize: "",
     selectedSauce: "",
     ingredients: {},
+    ingredientsArray: [],
     pizzaName: "",
     pizzaId: 0,
     pizzaCount: 1,
@@ -52,21 +53,21 @@ export default {
   },
 
   mutations: {
-    initState(state, payload) {
-      const initObj = {
-        dough: payload.dough,
-        sizes: payload.sizes,
-        sauces: payload.sauces,
-        ingredientsArray: payload.ingredients,
-        selectedDough: payload.dough[0],
-        selectedSize: payload.sizes[0],
-        selectedSauce: payload.sauces[0],
-        ingredients: initIngredients(payload.ingredients),
-        pizzaName: "",
-        pizzaId: 0,
-        pizzaCount: 1,
-      };
-      Object.assign(state, initObj);
+    initSizes(state, payload) {
+      state.sizes = payload;
+      state.selectedSize = payload[0];
+    },
+    initDough(state, payload) {
+      state.dough = payload;
+      state.selectedDough = payload[0];
+    },
+    initIngredients(state, payload) {
+      state.ingredients = initIngredients(payload);
+      state.ingredientsArray = payload;
+    },
+    initSauces(state, payload) {
+      state.sauces = payload;
+      state.selectedSauce = payload[0];
     },
     resetState(state) {
       state.selectedDough = state.dough[0];

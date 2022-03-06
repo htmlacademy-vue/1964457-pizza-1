@@ -16,13 +16,17 @@ export default new Vuex.Store({
   mutations: {},
   actions: {
     async init({ commit, rootState, dispatch }) {
-      const sizes = await this.$api.sizes.query();
-      const dough = await this.$api.dough.query();
-      const ingredients = await this.$api.ingredients.query();
-      const misc = await this.$api.misc.query();
-      const sauces = await this.$api.sauces.query();
-      commit("Builder/initState", { sizes, dough, ingredients, misc, sauces });
-      commit("Cart/setAdditionalItems", misc);
+      this.$api.sizes.query().then((data) => commit("Builder/initSizes", data));
+      this.$api.dough.query().then((data) => commit("Builder/initDough", data));
+      this.$api.ingredients
+        .query()
+        .then((data) => commit("Builder/initIngredients", data));
+      this.$api.sauces
+        .query()
+        .then((data) => commit("Builder/initSauces", data));
+      this.$api.misc
+        .query()
+        .then((data) => commit("Cart/setAdditionalItems", data));
       dispatch("Cart/setPhone");
       if (rootState.Auth.isAuthenticated) {
         dispatch("Orders/initOrders");
