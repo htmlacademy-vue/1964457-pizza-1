@@ -7,7 +7,13 @@
     >
       <span class="visually-hidden">Меньше</span>
     </button>
-    <input type="text" name="counter" class="counter__input" :value="current" />
+    <input
+      type="text"
+      name="counter"
+      class="counter__input"
+      :value="current"
+      readonly="readonly"
+    />
     <button
       type="button"
       class="counter__button counter__button--plus counter__button--orange"

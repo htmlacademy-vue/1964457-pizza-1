@@ -1,8 +1,6 @@
-import pizza from "@/static/pizza.json";
-
-const initIngredients = () => {
+const initIngredients = (ingredients) => {
   const result = {};
-  pizza.ingredients.forEach((ingredient) => {
+  ingredients.forEach((ingredient) => {
     result[ingredient.id] = {
       id: ingredient.id,
       name: ingredient.name,
@@ -14,22 +12,21 @@ const initIngredients = () => {
   return result;
 };
 
-const getInitialState = () => {
-  return {
-    pizza,
-    selectedDough: pizza.dough[0],
-    selectedSize: pizza.sizes[0],
-    selectedSauce: pizza.sauces[0],
-    ingredients: initIngredients(),
+export default {
+  namespaced: true,
+  state: {
+    dough: [],
+    sizes: [],
+    sauces: [],
+    selectedDough: "",
+    selectedSize: "",
+    selectedSauce: "",
+    ingredients: {},
+    ingredientsArray: [],
     pizzaName: "",
     pizzaId: 0,
     pizzaCount: 1,
-  };
-};
-
-export default {
-  namespaced: true,
-  state: getInitialState(),
+  },
   getters: {
     selectedIngredients(state) {
       return Object.values(state.ingredients).filter(
@@ -56,8 +53,30 @@ export default {
   },
 
   mutations: {
+    initSizes(state, payload) {
+      state.sizes = payload;
+      state.selectedSize = payload[0];
+    },
+    initDough(state, payload) {
+      state.dough = payload;
+      state.selectedDough = payload[0];
+    },
+    initIngredients(state, payload) {
+      state.ingredients = initIngredients(payload);
+      state.ingredientsArray = payload;
+    },
+    initSauces(state, payload) {
+      state.sauces = payload;
+      state.selectedSauce = payload[0];
+    },
     resetState(state) {
-      Object.assign(state, getInitialState());
+      state.selectedDough = state.dough[0];
+      state.selectedSize = state.sizes[0];
+      state.selectedSauce = state.sauces[0];
+      state.ingredients = initIngredients(state.ingredientsArray);
+      state.pizzaName = "";
+      state.pizzaId = 0;
+      state.pizzaCount = 1;
     },
     changeSelectedDough(state, payload) {
       state.selectedDough = payload;

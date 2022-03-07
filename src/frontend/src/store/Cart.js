@@ -1,7 +1,6 @@
-import misc from "@/static/misc.json";
 import Vue from "vue";
 
-const initAdditionalItems = () => {
+const initAdditionalItems = (misc) => {
   return misc.map((i) => ({
     id: i.id,
     name: i.name,
@@ -11,17 +10,16 @@ const initAdditionalItems = () => {
   }));
 };
 
-const getInitialState = () => {
-  return {
-    pizzas: [],
-    additionalItems: initAdditionalItems(),
-    pizzaCounter: 0,
-  };
-};
-
 export default {
   namespaced: true,
-  state: getInitialState(),
+  state: {
+    pizzas: [],
+    additionalItems: [],
+    pizzaCounter: 0,
+    newAddress: { street: "", building: "", flat: "" },
+    deliveryMethod: "self-delivery",
+    phone: "",
+  },
   getters: {
     cartPrice(state) {
       let pizzasPrice = 0;
@@ -38,8 +36,33 @@ export default {
       }
       return pizzasPrice + additionalItemsPrice;
     },
+    addresses(state, getters, rootState) {
+      let addresses = [
+        {
+          name: "Заберу сам",
+          street: "",
+          building: "",
+          comment: "",
+          id: "self-delivery",
+        },
+        {
+          name: "Новый адрес",
+          street: "",
+          building: "",
+          comment: "",
+          id: "new-address",
+        },
+      ];
+      if (rootState.Auth.isAuthenticated) {
+        addresses = addresses.concat(rootState.Profile.addresses);
+      }
+      return addresses;
+    },
   },
   mutations: {
+    setAdditionalItems(state, payload) {
+      state.additionalItems = initAdditionalItems(payload);
+    },
     addPizza(state, payload) {
       payload.id = state.pizzaCounter + 1;
       state.pizzas.push(payload);
@@ -71,9 +94,48 @@ export default {
     decreaseAdditionalItemCount(state, payload) {
       state.additionalItems.find((x) => x.id === payload).count--;
     },
-    resetState(state) {
-      Object.assign(state, getInitialState());
+    setAdditionalItemCount(state, payload) {
+      state.additionalItems.find((x) => x.id === payload.id).count =
+        payload.count;
+    },
+    resetCart(state) {
+      state.pizzas = [];
+      state.additionalItems.forEach((el) => {
+        if (el.count > 0) {
+          el.count = 0;
+        }
+      });
+      state.pizzaCounter = 0;
+      state.newAddress = { street: "", building: "", flat: "" };
+      state.deliveryMethod = "self-delivery";
+    },
+    setPhone(state, payload) {
+      state.phone = payload;
+    },
+    newAddressSetStreet(state, payload) {
+      state.newAddress.street = payload;
+    },
+    newAddressSetBuilding(state, payload) {
+      state.newAddress.building = payload;
+    },
+    newAddressSetFlat(state, payload) {
+      state.newAddress.flat = payload;
+    },
+    setDeliveryMethod(state, payload) {
+      state.deliveryMethod = payload;
     },
   },
-  actions: {},
+  actions: {
+    resetState({ commit, dispatch }) {
+      dispatch("setPhone");
+      commit("resetCart");
+    },
+    setPhone({ rootState, commit }) {
+      if (rootState.Auth.isAuthenticated) {
+        commit("setPhone", rootState.Auth.user.phone);
+      } else {
+        commit("setPhone", "");
+      }
+    },
+  },
 };

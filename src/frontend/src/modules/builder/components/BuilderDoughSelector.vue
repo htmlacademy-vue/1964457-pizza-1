@@ -4,20 +4,20 @@
       <h2 class="title title--small sheet__title">Выберите тесто</h2>
       <div class="sheet__content dough">
         <label
-          v-for="dough in pizza.dough"
-          :key="dough.id"
+          v-for="d in dough"
+          :key="d.id"
           class="dough__input"
-          :class="getClassNameForDough(dough.name)"
+          :class="getClassNameForDough(d.name)"
         >
           <RadioButton
             className="visually-hidden"
             name="dough"
-            :value="getInputValueForDough(dough.name)"
-            :checked="selectedDough.id === dough.id"
-            @updateSelected="updateSelected(dough)"
+            :value="getInputValueForDough(d.name)"
+            :checked="selectedDough.id === d.id"
+            @updateSelected="updateSelected(d)"
           />
-          <b>{{ dough.name }}</b>
-          <span>{{ dough.description }}</span>
+          <b>{{ d.name }}</b>
+          <span>{{ d.description }}</span>
         </label>
       </div>
     </div>
@@ -34,7 +34,7 @@ export default {
     RadioButton,
   },
   computed: {
-    ...mapState("Builder", ["pizza", "selectedDough"]),
+    ...mapState("Builder", ["selectedDough", "dough"]),
   },
   methods: {
     getClassNameForDough(doughName) {

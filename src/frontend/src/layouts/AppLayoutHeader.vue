@@ -13,7 +13,16 @@
     <div class="header__cart">
       <router-link to="/cart"> {{ cartPrice }} ₽</router-link>
     </div>
-    <div class="header__user">
+    <div v-if="isAuthenticated" class="header__user">
+      <router-link to="/profile">
+        <picture>
+          <img :src="user.avatar" :alt="user.name" width="32" height="32" />
+        </picture>
+        <span>{{ user.name }}</span>
+      </router-link>
+      <a href="#" @click="logout" class="header__logout"><span>Выйти</span></a>
+    </div>
+    <div v-else class="header__user">
       <router-link to="/login" class="header__login">
         <span>Войти</span>
       </router-link>
@@ -22,12 +31,20 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "AppLayoutHeader",
   computed: {
     ...mapGetters("Cart", ["cartPrice"]),
+    ...mapState("Auth", ["isAuthenticated", "user"]),
+  },
+  methods: {
+    async logout() {
+      await this.$store.dispatch("Auth/logout");
+      this.$store.commit("Cart/setPhone", "");
+      await this.$router.push("/");
+    },
   },
 };
 </script>

@@ -14,6 +14,7 @@
         name="counter"
         class="counter__input"
         :value="item.count"
+        readonly="readonly"
       />
       <button
         type="button"

@@ -43,7 +43,9 @@
         </div>
 
         <div class="footer__submit">
-          <button type="submit" class="button">Оформить заказ</button>
+          <button type="submit" class="button" :disabled="isCartEmpty">
+            Оформить заказ
+          </button>
         </div>
       </section>
     </form>
@@ -70,21 +72,76 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("Cart", ["cartPrice"]),
-    ...mapState("Cart", ["pizzas", "additionalItems"]),
+    ...mapGetters("Cart", ["cartPrice", "addresses"]),
+    ...mapState("Cart", [
+      "pizzas",
+      "additionalItems",
+      "deliveryMethod",
+      "newAddress",
+    ]),
+    ...mapState("Auth", ["isAuthenticated", "user"]),
     isCartEmpty() {
       return this.pizzas.length === 0;
     },
+    phone() {
+      return this.$store.state.Cart.phone;
+    },
+    street() {
+      return this.newAddress.street;
+    },
+    building() {
+      return this.newAddress.building;
+    },
+    flat() {
+      return this.newAddress.flat;
+    },
   },
   methods: {
-    submitOrder() {
+    async submitOrder() {
+      let payload = {
+        userId: this.isAuthenticated ? this.user.id : null,
+        phone: this.phone,
+        address: this.getDeliveryAddress(),
+        pizzas: this.pizzas.map((p) => this.getPizzaPayload(p)),
+        misc: this.additionalItems
+          .filter((i) => i.count > 0)
+          .map((i) => ({ miscId: i.id, quantity: i.count })),
+      };
+      await this.$store.dispatch("Orders/submitOrder", payload);
       this.showPopup = true;
     },
     resetState() {
       this.showPopup = false;
-      this.$store.commit("Cart/resetState");
+      this.$store.dispatch("Cart/resetState");
       this.$store.commit("Builder/resetState");
       this.$router.push("/");
+    },
+    getPizzaPayload(pizza) {
+      return {
+        name: pizza.name,
+        sauceId: pizza.sauce.id,
+        doughId: pizza.dough.id,
+        sizeId: pizza.size.id,
+        quantity: pizza.count,
+        ingredients: pizza.ingredients.map((i) => ({
+          ingredientId: i.id,
+          quantity: i.count,
+        })),
+      };
+    },
+    getDeliveryAddress() {
+      let address = null;
+      if (this.deliveryMethod === "self-delivery") {
+        address = null;
+      } else if (this.deliveryMethod === "new-address") {
+        address = this.newAddress;
+      } else {
+        address = { id: this.deliveryMethod };
+      }
+      if (address) {
+        address.flat = address.flat ? address.flat : "-";
+      }
+      return address;
     },
   },
 };

@@ -5,6 +5,14 @@ import Cart from "@/views/Cart.vue";
 import Login from "@/views/Login.vue";
 import Orders from "@/views/Orders.vue";
 import Profile from "@/views/Profile.vue";
+import {
+  auth,
+  middlewarePipeline,
+  nonAuthenticatedOnly,
+  authenticatedOnly,
+  profile,
+} from "@/middlewares";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -15,6 +23,7 @@ const routes = [
     component: Index,
     meta: {
       layout: "AppLayoutMain",
+      middlewares: [auth],
     },
   },
   {
@@ -23,6 +32,7 @@ const routes = [
     component: Cart,
     meta: {
       layout: "AppLayoutMain",
+      middlewares: [auth],
     },
   },
   {
@@ -31,6 +41,7 @@ const routes = [
     component: Login,
     meta: {
       layout: "AppLayoutMain",
+      middlewares: [auth, nonAuthenticatedOnly],
     },
   },
   {
@@ -38,7 +49,8 @@ const routes = [
     name: "Orders",
     component: Orders,
     meta: {
-      layout: "AppLayoutMain",
+      layout: "AppLayoutMainWithSidebar",
+      middlewares: [auth, authenticatedOnly],
     },
   },
   {
@@ -46,7 +58,8 @@ const routes = [
     name: "Profile",
     component: Profile,
     meta: {
-      layout: "AppLayoutMain",
+      layout: "AppLayoutMainWithSidebar",
+      middlewares: [auth, authenticatedOnly, profile],
     },
   },
 ];
@@ -55,6 +68,26 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const middlewares = to.meta.middlewares;
+  if (!middlewares?.length) {
+    return next();
+  }
+
+  // Запускаем обход по цепочке проверок
+  const context = { to, from, next, store };
+  const firstMiddlewareIndex = 0;
+  const nextMiddlewareIndex = 1;
+  return middlewares[firstMiddlewareIndex]({
+    ...context,
+    nextMiddleware: middlewarePipeline(
+      context,
+      middlewares,
+      nextMiddlewareIndex
+    ),
+  });
 });
 
 export default router;
