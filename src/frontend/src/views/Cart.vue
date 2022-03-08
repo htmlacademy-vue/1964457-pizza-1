@@ -22,9 +22,9 @@
             <CartAddressForm />
           </div>
         </div>
-        <div v-if="showPopup">
-          <CartPopup @close="resetState" />
-        </div>
+        <transition name="fade" v-on:leave="$router.push(`/`)">
+          <CartPopup v-if="showPopup" @close="resetState" />
+        </transition>
       </main>
       <section class="footer">
         <div class="footer__more">
@@ -114,7 +114,6 @@ export default {
       this.showPopup = false;
       this.$store.dispatch("Cart/resetState");
       this.$store.commit("Builder/resetState");
-      this.$router.push("/");
     },
     getPizzaPayload(pizza) {
       return {
@@ -147,4 +146,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+}
+</style>

@@ -19,11 +19,13 @@
         @dragenter.prevent
       >
         <div class="pizza__wrapper">
-          <div
-            v-for="ingredient in selectedIngredients"
-            v-html="getIngredientElements(ingredient)"
-            :key="ingredient.id"
-          ></div>
+          <transition-group name="ingredients">
+            <div
+              v-for="ingredientClass in ingredientClasses"
+              :class="ingredientClass"
+              :key="ingredientClass"
+            ></div>
+          </transition-group>
         </div>
       </div>
     </div>
@@ -43,24 +45,6 @@ export default {
   },
 
   methods: {
-    getIngredientElements(ingredient) {
-      const englishName = ingredient.image
-        .replace(".svg", "")
-        .split("/")
-        .at(-1);
-      switch (ingredient.count) {
-        case 1:
-          return `<div class="pizza__filling pizza__filling--${englishName}"></div>`;
-        case 2:
-          return `<div class="pizza__filling pizza__filling--${englishName}"></div>
-                  <div class="pizza__filling pizza__filling--${englishName} pizza__filling--second"></div>`;
-        case 3:
-          return `<div class="pizza__filling pizza__filling--${englishName}"></div>
-                  <div class="pizza__filling pizza__filling--${englishName} pizza__filling--second"></div>
-                  <div class="pizza__filling pizza__filling--${englishName} pizza__filling--third"></div>`;
-      }
-    },
-
     addToCart() {
       const payload = {
         id: this.pizzaId,
@@ -111,6 +95,50 @@ export default {
         this.$store.commit("Builder/setPizzaName", value);
       },
     },
+    ingredientClasses() {
+      let result = [];
+      this.selectedIngredients.forEach((ingredient) => {
+        const englishName = ingredient.image
+          .replace(".svg", "")
+          .split("/")
+          .at(-1);
+        switch (ingredient.count) {
+          case 1:
+            result.push(`pizza__filling pizza__filling--${englishName}`);
+            break;
+          case 2:
+            result.push(`pizza__filling pizza__filling--${englishName}`);
+            result.push(
+              `pizza__filling pizza__filling--${englishName} pizza__filling--second`
+            );
+            break;
+          case 3:
+            result.push(`pizza__filling pizza__filling--${englishName}`);
+            result.push(
+              `pizza__filling pizza__filling--${englishName} pizza__filling--second`
+            );
+            result.push(
+              `pizza__filling pizza__filling--${englishName} pizza__filling--third`
+            );
+            break;
+        }
+      });
+      return result;
+    },
   },
 };
 </script>
+<style scoped>
+.ingredients-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.ingredients-enter-active,
+.ingredients-leave-active {
+  transition: all 1s;
+}
+.ingredients-enter, .ingredients-leave-to /* .list-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+</style>

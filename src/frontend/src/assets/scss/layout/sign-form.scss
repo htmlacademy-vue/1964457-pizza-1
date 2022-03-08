@@ -1,12 +1,19 @@
 .sign-form {
-  @include pf_center-all;
+  // @include pf_center-all;
+  height: 450px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 
   z-index: 10;
 
   display: block;
 
   box-sizing: border-box;
-  width: 455px;
+  width: 450px;
   padding-top: 146px;
   padding-right: 32px;
   padding-bottom: 32px;
