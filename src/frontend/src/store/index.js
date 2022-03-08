@@ -27,6 +27,7 @@ export default new Vuex.Store({
       this.$api.misc
         .query()
         .then((data) => commit("Cart/setAdditionalItems", data));
+      await dispatch("Auth/getMe");
       dispatch("Cart/setPhone");
       if (rootState.Auth.isAuthenticated) {
         dispatch("Orders/initOrders");

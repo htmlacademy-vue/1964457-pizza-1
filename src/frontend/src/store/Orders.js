@@ -9,9 +9,8 @@ export default {
   },
   actions: {
     async initOrders({ commit }) {
-      this.$api.orders
-        .query()
-        .then((response) => commit("setOrders", response));
+      const orders = await this.$api.orders.query();
+      commit("setOrders", orders);
     },
     async submitOrder({ rootState, dispatch }, order) {
       this.$api.orders.post(order).then(() => {
