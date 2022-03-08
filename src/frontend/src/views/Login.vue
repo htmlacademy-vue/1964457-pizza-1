@@ -1,6 +1,6 @@
 <template>
   <div class="sign-form">
-    <a href="#" class="close close--white">
+    <a href="#" @click="$router.push(`/`)" class="close close--white">
       <span class="visually-hidden">Закрыть форму авторизации</span>
     </a>
     <div class="sign-form__title">

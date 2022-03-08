@@ -22,7 +22,7 @@
             <CartAddressForm />
           </div>
         </div>
-        <transition name="fade">
+        <transition name="fade" v-on:leave="$router.push(`/`)">
           <CartPopup v-if="showPopup" @close="resetState" />
         </transition>
       </main>
@@ -114,7 +114,6 @@ export default {
       this.showPopup = false;
       this.$store.dispatch("Cart/resetState");
       this.$store.commit("Builder/resetState");
-      setTimeout(() => this.$router.push("/"), 200); // waiting on PopUp faidout animation
     },
     getPizzaPayload(pizza) {
       return {
