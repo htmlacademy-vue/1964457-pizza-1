@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import ItemCounter from "@/common/components/ItemCounter";
 
-describe("ItemCounter", () => {
+describe("ItemCounter with min values", () => {
   const wrapper = mount(ItemCounter, {
     propsData: {
       min: 0,
