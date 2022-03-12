@@ -76,7 +76,6 @@ export default {
       "selectedDough",
       "selectedSauce",
       "selectedSize",
-      "pizzaName",
       "pizzaId",
       "pizzaCount",
     ]),
