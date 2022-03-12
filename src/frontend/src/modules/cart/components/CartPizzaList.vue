@@ -7,17 +7,27 @@
           class="product__img"
           width="56"
           height="56"
-          alt="pizza.name"
+          :alt="pizza.name"
         />
         <div class="product__text">
           <h2>{{ pizza.name }}</h2>
           <ul>
             <li>
-              {{ pizza.size.name }}, Тесто :
-              {{ pizza.dough.name.toLowerCase() }}
+              <span name="size">{{ pizza.size.name }},</span>
+              <span name="dough">
+                Тесто: {{ pizza.dough.name.toLowerCase() }}
+              </span>
             </li>
-            <li>Соус: {{ pizza.sauce.name.toLowerCase() }}</li>
-            <li>Начинка: {{ getIngredientNames(pizza) }}</li>
+            <li>
+              <span name="sauce">
+                Соус: {{ pizza.sauce.name.toLowerCase() }}
+              </span>
+            </li>
+            <li>
+              <span name="ingredients">
+                Начинка: {{ getIngredientNames(pizza) }}
+              </span>
+            </li>
           </ul>
         </div>
       </div>
