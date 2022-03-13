@@ -67,6 +67,26 @@ export const addressMock = {
   comment: "Это тестовый адрес",
   userId: "e9707be9-96f7-42bf-a3b3-5d7788616c08",
 };
+export const orderMiscItemMock = { id: 1, quantity: 1, orderId: 1, miscId: 1 };
+export const orderPizzaMock = {
+  id: 1,
+  name: pizzaNameMock,
+  quantity: 1,
+  sauceId: 1,
+  doughId: 1,
+  sizeId: 1,
+  orderId: 1,
+  ingredients: [{ id: 1, quantity: 1, pizzaId: 1, ingredientId: 1 }],
+};
+const orderMock = {
+  addressId: 1,
+  id: 1,
+  orderAddress: addressMock,
+  orderMisc: [orderMiscItemMock],
+  orderPizzas: [orderPizzaMock],
+  phone: userMock.phone,
+  userid: userMock.id,
+};
 
 // Builder module
 const BuilderMock = {
@@ -111,6 +131,12 @@ const ProfileMock = {
   namespaced: true,
 };
 
+// Orders module
+const OrdersMock = {
+  state: { orders: [orderMock] },
+  namespaced: true,
+};
+
 export const getVuexMock = ({ authenticated = false } = {}) => {
   return new Vuex.Store({
     modules: {
@@ -122,6 +148,7 @@ export const getVuexMock = ({ authenticated = false } = {}) => {
       Profile: authenticated
         ? cloneDeep(ProfileMock)
         : { state: { addresses: null }, namespaced: true },
+      Orders: OrdersMock,
     },
   });
 };
