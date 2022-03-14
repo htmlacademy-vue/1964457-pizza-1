@@ -115,10 +115,25 @@ const CartMock = {
     pizzaCounter: 1,
     newAddress: newAddressMock,
     deliveryMethod: deliveryMethodMock,
+    phone: "",
   },
   getters: Cart.getters,
   namespaced: true,
 };
+
+const EmptyCartMock = {
+  state: {
+    pizzas: [],
+    additionalItems: [additionalItemMock],
+    pizzaCounter: 0,
+    newAddress: { street: "", building: "", flat: "" },
+    deliveryMethod: "self-delivery",
+    phone: "",
+  },
+  getters: Cart.getters,
+  namespaced: true,
+};
+
 // Auth module
 const AuthMock = {
   state: { isAuthenticated: true, user: userMock },
@@ -137,14 +152,17 @@ const OrdersMock = {
   namespaced: true,
 };
 
-export const getVuexMock = ({ authenticated = false } = {}) => {
+export const getVuexMock = ({
+  authenticated = false,
+  cartEmpty = false,
+} = {}) => {
   return new Vuex.Store({
     modules: {
       Auth: authenticated
         ? cloneDeep(AuthMock)
         : { state: { isAuthenticated: false, user: null }, namespaced: true },
       Builder: cloneDeep(BuilderMock),
-      Cart: CartMock,
+      Cart: cartEmpty ? EmptyCartMock : CartMock,
       Profile: authenticated
         ? cloneDeep(ProfileMock)
         : { state: { addresses: null }, namespaced: true },
