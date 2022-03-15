@@ -78,7 +78,7 @@ export const orderPizzaMock = {
   orderId: 1,
   ingredients: [{ id: 1, quantity: 1, pizzaId: 1, ingredientId: 1 }],
 };
-const orderMock = {
+export const orderMock = {
   addressId: 1,
   id: 1,
   orderAddress: addressMock,
