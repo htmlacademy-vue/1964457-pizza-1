@@ -32,9 +32,7 @@ describe("AppLayoutHeader (not authenticated)", () => {
 
   it("renders cart price", () => {
     createComponent({ localVue, store, router });
-    expect(wrapper.find(".header__cart > a").text()).toBe(
-      `${store.getters["Cart/cartPrice"]} ₽`
-    );
+    expect(wrapper.find(".header__cart > a").text()).toBe(`439 ₽`);
   });
 
   it("renders login link", () => {
@@ -66,9 +64,7 @@ describe("AppLayoutHeader (authenticated)", () => {
 
   it("renders cart price", () => {
     createComponent({ localVue, store, router });
-    expect(wrapper.find(".header__cart > a").text()).toBe(
-      `${store.getters["Cart/cartPrice"]} ₽`
-    );
+    expect(wrapper.find(".header__cart > a").text()).toBe(`439 ₽`);
   });
 
   it("renders user avatar", () => {
