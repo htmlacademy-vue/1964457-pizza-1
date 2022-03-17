@@ -12,13 +12,22 @@ const ingredientMock = {
   price: 33,
   count: 1,
 };
-const doughMock = {
+export const doughLightMock = {
   id: 1,
   name: "Тонкое",
   image: "/public/img/dough-light.svg",
   description: "Из твердых сортов пшеницы",
   price: 300,
 };
+
+export const doughLargeMock = {
+  id: 2,
+  name: "Толстое",
+  image: "/public/img/dough-large.svg",
+  description: "Из твердых сортов пшеницы",
+  price: 300,
+};
+
 const sizeMock = {
   id: 1,
   name: "23 см",
@@ -32,7 +41,7 @@ export const pizzaMock = {
   id: pizzaIdMock,
   name: pizzaNameMock,
   sauce: sauceMock,
-  dough: doughMock,
+  dough: doughLightMock,
   size: sizeMock,
   ingredients: [ingredientMock],
   price: 383,
@@ -91,10 +100,10 @@ export const orderMock = {
 // Builder module
 const BuilderMock = {
   state: {
-    dough: [doughMock],
+    dough: [doughLightMock, doughLargeMock],
     sauces: [sauceMock],
     sizes: [sizeMock],
-    selectedDough: doughMock,
+    selectedDough: doughLightMock,
     selectedSauce: sauceMock,
     selectedSize: sizeMock,
     ingredients: { 1: ingredientMock },
@@ -104,6 +113,7 @@ const BuilderMock = {
     pizzaCount: pizzaCountMock,
   },
   getters: Builder.getters,
+  mutations: Builder.mutations,
   namespaced: true,
 };
 

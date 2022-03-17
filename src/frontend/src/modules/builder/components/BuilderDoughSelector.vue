@@ -6,6 +6,7 @@
         <label
           v-for="d in dough"
           :key="d.id"
+          :doughid="d.id"
           class="dough__input"
           :class="getClassNameForDough(d.name)"
         >
