@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
-import { getVuexMock } from "@/store/mocks";
+import { getVuexMock, pizzaMock } from "@/store/mocks";
 
 const localVue = createLocalVue();
 
@@ -16,7 +16,7 @@ describe("BuilderPizzaView", () => {
   };
 
   beforeEach(() => {
-    store = getVuexMock();
+    store = getVuexMock({ cartEmpty: true });
   });
 
   afterEach(() => {
@@ -45,5 +45,11 @@ describe("BuilderPizzaView", () => {
     expect(wrapper.find(".pizza__filling").attributes("class")).toBe(
       "pizza__filling pizza__filling--mushrooms"
     );
+  });
+
+  it("has working addToCart logic", async () => {
+    createComponent({ store, localVue });
+    await wrapper.find(".button").trigger("click");
+    expect(store.state.Cart.pizzas[0].name).toBe(pizzaMock.name);
   });
 });

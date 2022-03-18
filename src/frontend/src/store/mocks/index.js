@@ -36,7 +36,7 @@ const sizeMock = {
   multiplier: 1,
 };
 const pizzaNameMock = "Тестовая пицца";
-const pizzaIdMock = 1;
+const pizzaIdMock = 0;
 const pizzaCountMock = 1;
 export const pizzaMock = {
   id: pizzaIdMock,
@@ -110,7 +110,7 @@ const BuilderMock = {
     ingredients: { 1: ingredientMock },
     ingredientsArray: [ingredientMock],
     pizzaName: pizzaNameMock,
-    pizaId: pizzaIdMock,
+    pizzaId: pizzaIdMock,
     pizzaCount: pizzaCountMock,
   },
   getters: Builder.getters,
@@ -129,6 +129,7 @@ const CartMock = {
     phone: "",
   },
   getters: Cart.getters,
+  mutations: Cart.mutations,
   namespaced: true,
 };
 
@@ -142,6 +143,7 @@ const EmptyCartMock = {
     phone: "",
   },
   getters: Cart.getters,
+  mutations: Cart.mutations,
   namespaced: true,
 };
 
