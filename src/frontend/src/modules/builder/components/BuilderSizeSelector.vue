@@ -7,6 +7,7 @@
         <label
           v-for="size in sizes"
           :key="size.id"
+          :sizeid="size.id"
           class="diameter__input"
           :class="getClassNameForDiameter(size.name)"
         >

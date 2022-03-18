@@ -29,12 +29,19 @@ export const doughLargeMock = {
   price: 300,
 };
 
-const sizeMock = {
+export const sizeSmallMock = {
   id: 1,
   name: "23 см",
   image: "/public/img/diameter.svg",
   multiplier: 1,
 };
+
+export const sizeMediumMock = {
+  id: 2,
+  name: "32 см",
+  image: "/public/img/diameter.svg",
+};
+
 const pizzaNameMock = "Тестовая пицца";
 const pizzaIdMock = 0;
 const pizzaCountMock = 1;
@@ -43,7 +50,7 @@ export const pizzaMock = {
   name: pizzaNameMock,
   sauce: sauceTomatoMock,
   dough: doughLightMock,
-  size: sizeMock,
+  size: sizeSmallMock,
   ingredients: [ingredientMock],
   price: 383,
   count: 1,
@@ -103,10 +110,10 @@ const BuilderMock = {
   state: {
     dough: [doughLightMock, doughLargeMock],
     sauces: [sauceTomatoMock, sauceCreamMock],
-    sizes: [sizeMock],
+    sizes: [sizeSmallMock, sizeMediumMock],
     selectedDough: doughLightMock,
     selectedSauce: sauceTomatoMock,
-    selectedSize: sizeMock,
+    selectedSize: sizeSmallMock,
     ingredients: { 1: ingredientMock },
     ingredientsArray: [ingredientMock],
     pizzaName: pizzaNameMock,

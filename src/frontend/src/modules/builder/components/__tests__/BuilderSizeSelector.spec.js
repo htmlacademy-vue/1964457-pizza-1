@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
-import { getVuexMock } from "@/store/mocks";
+import { getVuexMock, sizeSmallMock, sizeMediumMock } from "@/store/mocks";
 
 const localVue = createLocalVue();
 
@@ -20,6 +20,7 @@ describe("BuilderSizeSelector", () => {
 
   beforeEach(() => {
     store = getVuexMock();
+    createComponent({ store, localVue, propsData });
   });
 
   afterEach(() => {
@@ -27,24 +28,49 @@ describe("BuilderSizeSelector", () => {
   });
 
   it("renders", () => {
-    createComponent({ store, localVue, propsData });
     expect(wrapper.exists()).toBeTruthy();
   });
 
-  it("has correct class", () => {
-    createComponent({ store, localVue, propsData });
-    expect(wrapper.find(".diameter__input").attributes("class")).toBe(
-      "diameter__input diameter__input--small"
-    );
+  it("has small size option with correct class", () => {
+    expect(
+      wrapper.find(`label[sizeid="${sizeSmallMock.id}"]`).attributes("class")
+    ).toBe("diameter__input diameter__input--small");
   });
 
-  it("has correct value", () => {
-    createComponent({ store, localVue, propsData });
-    expect(wrapper.find("input").element.value).toBe("small");
+  it("has has small size option with correct value", () => {
+    expect(
+      wrapper.find(`label[sizeid="${sizeSmallMock.id}"] > input`).element.value
+    ).toBe("small");
   });
 
-  it("has correct name", () => {
-    createComponent({ store, localVue, propsData });
-    expect(wrapper.find("span").text()).toBe("23 см");
+  it("has has small size option with correct name", () => {
+    expect(
+      wrapper.find(`label[sizeid="${sizeSmallMock.id}"] > span`).text()
+    ).toBe(sizeSmallMock.name);
+  });
+
+  it("has medium size option with correct class", () => {
+    expect(
+      wrapper.find(`label[sizeid="${sizeMediumMock.id}"]`).attributes("class")
+    ).toBe("diameter__input diameter__input--normal");
+  });
+
+  it("has has medium size option with correct value", () => {
+    expect(
+      wrapper.find(`label[sizeid="${sizeMediumMock.id}"] > input`).element.value
+    ).toBe("normal");
+  });
+
+  it("has has medium size option with correct name", () => {
+    expect(
+      wrapper.find(`label[sizeid="${sizeMediumMock.id}"] > span`).text()
+    ).toBe(sizeMediumMock.name);
+  });
+
+  it("is able to change selected size", async () => {
+    await wrapper
+      .find(`label[sizeid="${sizeMediumMock.id}"] > input`)
+      .trigger("click");
+    expect(store.state.Builder.selectedSize.id).toBe(sizeMediumMock.id);
   });
 });
