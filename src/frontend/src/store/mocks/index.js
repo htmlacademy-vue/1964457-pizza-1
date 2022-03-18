@@ -4,8 +4,9 @@ import Builder from "@/store/Builder.js";
 import Cart from "@/store/Cart";
 import Vuex from "vuex";
 
-const sauceMock = { id: 1, name: "Томатный", price: 50 };
-const ingredientMock = {
+export const sauceTomatoMock = { id: 1, name: "Томатный", price: 50 };
+export const sauceCreamMock = { id: 2, name: "Сливочный", price: 50 };
+export const ingredientMock = {
   id: 1,
   name: "Грибы",
   image: "/public/img/filling/mushrooms.svg",
@@ -40,7 +41,7 @@ const pizzaCountMock = 1;
 export const pizzaMock = {
   id: pizzaIdMock,
   name: pizzaNameMock,
-  sauce: sauceMock,
+  sauce: sauceTomatoMock,
   dough: doughLightMock,
   size: sizeMock,
   ingredients: [ingredientMock],
@@ -101,10 +102,10 @@ export const orderMock = {
 const BuilderMock = {
   state: {
     dough: [doughLightMock, doughLargeMock],
-    sauces: [sauceMock],
+    sauces: [sauceTomatoMock, sauceCreamMock],
     sizes: [sizeMock],
     selectedDough: doughLightMock,
-    selectedSauce: sauceMock,
+    selectedSauce: sauceTomatoMock,
     selectedSize: sizeMock,
     ingredients: { 1: ingredientMock },
     ingredientsArray: [ingredientMock],

@@ -1,6 +1,6 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
-import { getVuexMock } from "@/store/mocks";
+import { getVuexMock, sauceTomatoMock, sauceCreamMock } from "@/store/mocks";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 
 const localVue = createLocalVue();
@@ -17,6 +17,7 @@ describe("BuilderIngredientsSelector", () => {
 
   beforeEach(() => {
     store = getVuexMock();
+    createComponent({ store, localVue });
   });
 
   afterEach(() => {
@@ -24,11 +25,51 @@ describe("BuilderIngredientsSelector", () => {
   });
 
   it("renders", () => {
-    createComponent({ store, localVue });
     expect(wrapper.exists()).toBeTruthy();
   });
-  it("has correct sauce name", () => {
-    createComponent({ store, localVue });
-    expect(wrapper.find("span").text()).toBe("Томатный");
+
+  it("renders tomato sauce option with correct name", () => {
+    expect(
+      wrapper.find(`label[sauceid="${sauceTomatoMock.id}"] > span`).text()
+    ).toBe(sauceTomatoMock.name);
+  });
+
+  it("renders tomato sauce option with correct input value ", () => {
+    expect(
+      wrapper
+        .find(`label[sauceid="${sauceTomatoMock.id}"] > input`)
+        .attributes("value")
+    ).toBe("tomato");
+  });
+
+  it("renders cream sauce option with correct name", () => {
+    expect(
+      wrapper.find(`label[sauceid="${sauceCreamMock.id}"] > span`).text()
+    ).toBe(sauceCreamMock.name);
+  });
+
+  it("renders cream sauce option with correct input value ", () => {
+    expect(
+      wrapper
+        .find(`label[sauceid="${sauceCreamMock.id}"] > input`)
+        .attributes("value")
+    ).toBe("creamy");
+  });
+
+  it("has update sauce functionality", async () => {
+    await wrapper
+      .find(`label[sauceid="${sauceCreamMock.id}"] > input`)
+      .trigger("click");
+    expect(store.state.Builder.selectedSauce.name).toBe(sauceCreamMock.name);
+  });
+
+  it("has add ingredient funtionality", async () => {
+    await wrapper.find(".counter__button--plus").trigger("click");
+    expect(store.getters["Builder/selectedIngredients"][0].count).toBe(2);
+  });
+
+  it("has remove ingredient functionality", async () => {
+    await wrapper.find(".counter__button--minus").trigger("click");
+    expect(store.getters["Builder/selectedIngredients"].length).toBe(0);
   });
 });
