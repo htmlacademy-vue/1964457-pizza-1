@@ -182,11 +182,11 @@ export const getVuexMock = ({
         ? cloneDeep(AuthMock)
         : { state: { isAuthenticated: false, user: null }, namespaced: true },
       Builder: cloneDeep(BuilderMock),
-      Cart: cartEmpty ? EmptyCartMock : CartMock,
+      Cart: cartEmpty ? cloneDeep(EmptyCartMock) : cloneDeep(CartMock),
       Profile: authenticated
         ? cloneDeep(ProfileMock)
         : { state: { addresses: null }, namespaced: true },
-      Orders: OrdersMock,
+      Orders: cloneDeep(OrdersMock),
     },
   });
 };
