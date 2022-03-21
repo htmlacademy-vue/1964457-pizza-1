@@ -10,23 +10,24 @@ describe("CartPopup", () => {
     wrapper = mount(CartPopup, options);
   };
 
+  beforeEach(() => {
+    createComponent({ localVue });
+  });
+
   afterEach(() => {
     wrapper.destroy();
   });
 
   it("renders", () => {
-    createComponent({ localVue });
     expect(wrapper.exists()).toBeTruthy();
   });
 
   it("emits 'close' when close icon is pressed", () => {
-    createComponent({ localVue });
     wrapper.find(".close").trigger("click");
     expect(wrapper.emitted().close).toBeTruthy();
   });
 
   it("emits 'close' when button is pressed", () => {
-    createComponent({ localVue });
     wrapper.find(".button").trigger("click");
     expect(wrapper.emitted().close).toBeTruthy();
   });
