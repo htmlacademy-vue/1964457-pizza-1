@@ -1,8 +1,9 @@
 import { cloneDeep } from "lodash";
-
+import Vuex from "vuex";
 import Builder from "@/store/Builder.js";
 import Cart from "@/store/Cart";
-import Vuex from "vuex";
+import Profile from "@/store/Profile";
+import Orders from "@/store/Orders";
 
 export const sauceTomatoMock = { id: 1, name: "Томатный", price: 50 };
 export const sauceCreamMock = { id: 2, name: "Сливочный", price: 50 };
@@ -137,6 +138,7 @@ const CartMock = {
   },
   getters: Cart.getters,
   mutations: Cart.mutations,
+  actions: Cart.actions,
   namespaced: true,
 };
 
@@ -151,6 +153,7 @@ const EmptyCartMock = {
   },
   getters: Cart.getters,
   mutations: Cart.mutations,
+  actions: Cart.actions,
   namespaced: true,
 };
 
@@ -163,12 +166,16 @@ const AuthMock = {
 // Profile module
 const ProfileMock = {
   state: { addresses: [addressMock] },
+  getters: Profile.getters,
+  mutations: Profile.mutations,
   namespaced: true,
 };
 
 // Orders module
 const OrdersMock = {
   state: { orders: [orderMock] },
+  getters: Orders.getters,
+  mutations: Orders.mutations,
   namespaced: true,
 };
 
