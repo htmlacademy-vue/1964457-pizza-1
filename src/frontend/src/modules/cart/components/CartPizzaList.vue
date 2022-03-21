@@ -1,6 +1,11 @@
 <template>
   <ul class="cart-list sheet">
-    <li v-for="pizza in pizzas" :key="pizza.id" class="cart-list__item">
+    <li
+      v-for="pizza in pizzas"
+      :key="pizza.id"
+      :pizzaid="pizza.id"
+      class="cart-list__item"
+    >
       <div class="product cart-list__product">
         <img
           src="img/product.svg"
@@ -81,7 +86,7 @@ export default {
         this.$store.commit("Cart/removePizza", pizzaId);
         if (this.pizzas.length === 0) {
           // We`ve removed last pizza. Cleaning up additional items from cart
-          this.$store.commit("Cart/resetState");
+          this.$store.commit("Cart/resetCart");
         }
       }
     },
