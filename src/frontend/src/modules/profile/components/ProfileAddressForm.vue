@@ -78,13 +78,14 @@
 
             <div class="address-form__buttons">
               <button
+                name="delete"
                 @click="onDelete"
                 type="button"
                 class="button button--transparent"
               >
                 Удалить
               </button>
-              <button @click="onSave" type="submit" class="button">
+              <button name="save" @click="onSave" type="submit" class="button">
                 Сохранить
               </button>
             </div>

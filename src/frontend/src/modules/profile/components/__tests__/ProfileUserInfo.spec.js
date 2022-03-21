@@ -17,6 +17,7 @@ describe("ProfileUserInfo", () => {
 
   beforeEach(() => {
     store = getVuexMock({ authenticated: true });
+    createComponent({ store, localVue });
   });
 
   afterEach(() => {
@@ -24,26 +25,21 @@ describe("ProfileUserInfo", () => {
   });
 
   it("renders", () => {
-    createComponent({ store, localVue });
     expect(wrapper.exists()).toBeTruthy();
   });
 
   it("renders user avatar", () => {
-    createComponent({ store, localVue });
     expect(wrapper.find("img").attributes("src")).toBe(userMock.avatar);
   });
 
   it("renders img alt name", () => {
-    createComponent({ store, localVue });
     expect(wrapper.find("img").attributes("alt")).toBe(userMock.name);
   });
   it("renders user name", () => {
-    createComponent({ store, localVue });
     expect(wrapper.find("span").text()).toBe(userMock.name);
   });
 
   it("renders user phone", () => {
-    createComponent({ store, localVue });
     expect(wrapper.find("p").text()).toBe(
       `Контактный телефон:${userMock.phone}`
     );

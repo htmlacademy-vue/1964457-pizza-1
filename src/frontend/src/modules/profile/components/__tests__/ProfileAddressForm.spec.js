@@ -15,52 +15,59 @@ describe("ProfileAddress", () => {
     wrapper = mount(ProfileAddressForm, options);
   };
 
+  beforeEach(() => {
+    createComponent({ localVue, propsData });
+  });
+
   afterEach(() => {
     wrapper.destroy();
   });
 
   it("renders", () => {
-    createComponent({ localVue, propsData });
     expect(wrapper.exists()).toBeTruthy();
   });
 
   it("renders address name", () => {
-    createComponent({ localVue, propsData });
     expect(wrapper.find("b").text()).toBe(addressMock.name);
   });
 
   it("renders address name in input", () => {
-    createComponent({ localVue, propsData });
     expect(wrapper.find('input[name="addr-name"]').element.value).toBe(
       addressMock.name
     );
   });
 
   it("renders street in input", () => {
-    createComponent({ localVue, propsData });
     expect(wrapper.find('input[name="addr-street"]').element.value).toBe(
       addressMock.street
     );
   });
 
   it("renders building in input", () => {
-    createComponent({ localVue, propsData });
     expect(wrapper.find('input[name="addr-house"]').element.value).toBe(
       addressMock.building
     );
   });
 
   it("renders flat in input", () => {
-    createComponent({ localVue, propsData });
     expect(wrapper.find('input[name="addr-apartment"]').element.value).toBe(
       addressMock.flat
     );
   });
 
   it("renders comment in input", () => {
-    createComponent({ localVue, propsData });
     expect(wrapper.find('input[name="addr-comment"]').element.value).toBe(
       addressMock.comment
     );
+  });
+
+  it("emits 'delete'", async () => {
+    await wrapper.find('button[name="delete"]').trigger("click");
+    expect(wrapper.emitted().deleteAddress).toBeTruthy();
+  });
+
+  it("emits 'edit'", async () => {
+    await wrapper.find('button[name="save"]').trigger("click");
+    expect(wrapper.emitted().updateAddress).toBeTruthy();
   });
 });
