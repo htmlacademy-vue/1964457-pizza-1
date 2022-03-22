@@ -19,6 +19,7 @@ describe("AppLayoutMainWithSidebar", () => {
 
   beforeEach(() => {
     store = getVuexMock({ authenticated: true });
+    createComponent({ localVue, store, router });
   });
 
   afterEach(() => {
@@ -26,7 +27,6 @@ describe("AppLayoutMainWithSidebar", () => {
   });
 
   it("renders", () => {
-    createComponent({ localVue, store, router });
     expect(wrapper.exists()).toBeTruthy();
   });
 });

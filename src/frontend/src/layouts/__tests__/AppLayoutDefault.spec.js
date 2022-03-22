@@ -20,6 +20,7 @@ describe("AppLayoutDefault", () => {
 
   beforeEach(() => {
     store = getVuexMock();
+    createComponent({ localVue, store, router });
   });
 
   afterEach(() => {
@@ -27,7 +28,6 @@ describe("AppLayoutDefault", () => {
   });
 
   it("renders", () => {
-    createComponent({ localVue, store, router });
     expect(wrapper.exists()).toBeTruthy();
   });
 });
