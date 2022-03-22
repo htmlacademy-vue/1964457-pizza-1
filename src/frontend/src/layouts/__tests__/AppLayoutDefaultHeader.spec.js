@@ -37,6 +37,11 @@ describe("AppLayoutHeader (not authenticated)", () => {
   it("renders login link", () => {
     expect(wrapper.find(".header__login")).toBeTruthy();
   });
+
+  it("has working /cart link", async () => {
+    await wrapper.find('a[href="/cart"]').trigger("click")
+    expect(router.currentRoute.name).toBe('Cart')
+  });
 });
 
 describe("AppLayoutHeader (authenticated)", () => {
@@ -80,5 +85,10 @@ describe("AppLayoutHeader (authenticated)", () => {
 
   it("renders logout link", () => {
     expect(wrapper.find(".header__logout")).toBeTruthy();
+  });
+
+  it("has working /cart link", async () => {
+    await wrapper.find('a[href="/cart"]').trigger("click")
+    expect(router.currentRoute.name).toBe('Cart')
   });
 });
