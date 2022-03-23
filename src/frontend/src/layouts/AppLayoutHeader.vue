@@ -18,7 +18,7 @@
         <picture>
           <img :src="user.avatar" :alt="user.name" width="32" height="32" />
         </picture>
-        <span>{{ user.name }}</span>
+        <span name="user_name">{{ user.name }}</span>
       </router-link>
       <a href="#" @click="logout" class="header__logout"><span>Выйти</span></a>
     </div>

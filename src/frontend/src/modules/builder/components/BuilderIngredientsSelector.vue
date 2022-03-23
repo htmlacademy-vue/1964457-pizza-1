@@ -10,6 +10,7 @@
           <label
             class="radio ingredients__input"
             v-for="sauce in sauces"
+            :sauceid="sauce.id"
             :key="sauce.id"
           >
             <RadioButton

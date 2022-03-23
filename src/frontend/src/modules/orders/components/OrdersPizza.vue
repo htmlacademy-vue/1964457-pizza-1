@@ -12,18 +12,15 @@
         <h2>{{ pizza.name }}</h2>
         <ul>
           <li>
-            {{ size.name }},
-            {{
+            <span name="size">{{ size.name }}, </span>
+            <span name="dough">{{
               pizzaDough.name.toLowerCase() === "тонкое"
                 ? "на тонком тесте"
                 : "на толстом тесте"
-            }}
+            }}</span>
           </li>
-          <li>Соус: {{ sauce.name.toLowerCase() }}</li>
-          <li>
-            Начинка:
-            {{ ingredients.map((e) => e.name.toLowerCase()).join(", ") }}
-          </li>
+          <li name="sauce">Соус: {{ sauce.name.toLowerCase() }}</li>
+          <li name="ingredients">Начинка: {{ ingredients_lower }}</li>
         </ul>
       </div>
     </div>
@@ -48,6 +45,9 @@ export default {
       return this.ingredientsArray.filter((e) =>
         this.ingredientIds.includes(e.id)
       );
+    },
+    ingredients_lower() {
+      return this.ingredients.map((e) => e.name.toLowerCase()).join(", ");
     },
     sauce() {
       return this.sauces.find((e) => this.pizza.sauceId === e.id);

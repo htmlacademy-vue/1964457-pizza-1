@@ -26,22 +26,6 @@ export default {
     BuilderIngredientsSelector,
     BuilderPizzaView,
   },
-  methods: {
-    addToCart() {
-      this.$emit("addToCart", this.totalPrice);
-      Object.assign(this.$data, this.initialState());
-    },
-  },
-  computed: {
-    totalPrice() {
-      return (
-        (this.selectedDough.price +
-          this.selectedSauce.price +
-          this.calculateIngredientPrice()) *
-        this.selectedSize.multiplier
-      );
-    },
-  },
 };
 </script>
 

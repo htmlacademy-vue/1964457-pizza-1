@@ -7,14 +7,14 @@
         class="additional-list__item sheet"
       >
         <p class="additional-list__description">
-          <img :src="item.image" width="39" height="60" alt="item.name" />
+          <img :src="item.image" width="39" height="60" :alt="item.name" />
           <span>{{ item.name }}</span>
         </p>
         <CartAdditionalItemCounter
           :min="0"
           :item="item"
           @increase="increaseItemCount(item.id)"
-          @decrease="decreaseOrRemoveItem(item.id)"
+          @decrease="decreaseItemCount(item.id)"
         />
       </li>
     </ul>
@@ -36,7 +36,7 @@ export default {
     increaseItemCount(itemId) {
       this.$store.commit("Cart/increaseAdditionalItemCount", itemId);
     },
-    decreaseOrRemoveItem(itemId) {
+    decreaseItemCount(itemId) {
       const item = this.additionalItems.find((x) => x.id === itemId);
       if (item.count >= 1) {
         this.$store.commit("Cart/decreaseAdditionalItemCount", itemId);

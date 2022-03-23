@@ -1,23 +1,38 @@
 <template>
   <ul class="cart-list sheet">
-    <li v-for="pizza in pizzas" :key="pizza.id" class="cart-list__item">
+    <li
+      v-for="pizza in pizzas"
+      :key="pizza.id"
+      :pizzaid="pizza.id"
+      class="cart-list__item"
+    >
       <div class="product cart-list__product">
         <img
           src="img/product.svg"
           class="product__img"
           width="56"
           height="56"
-          alt="pizza.name"
+          :alt="pizza.name"
         />
         <div class="product__text">
           <h2>{{ pizza.name }}</h2>
           <ul>
             <li>
-              {{ pizza.size.name }}, Тесто :
-              {{ pizza.dough.name.toLowerCase() }}
+              <span name="size">{{ pizza.size.name }},</span>
+              <span name="dough">
+                Тесто: {{ pizza.dough.name.toLowerCase() }}
+              </span>
             </li>
-            <li>Соус: {{ pizza.sauce.name.toLowerCase() }}</li>
-            <li>Начинка: {{ getIngredientNames(pizza) }}</li>
+            <li>
+              <span name="sauce">
+                Соус: {{ pizza.sauce.name.toLowerCase() }}
+              </span>
+            </li>
+            <li>
+              <span name="ingredients">
+                Начинка: {{ getIngredientNames(pizza) }}
+              </span>
+            </li>
           </ul>
         </div>
       </div>
@@ -71,7 +86,7 @@ export default {
         this.$store.commit("Cart/removePizza", pizzaId);
         if (this.pizzas.length === 0) {
           // We`ve removed last pizza. Cleaning up additional items from cart
-          this.$store.commit("Cart/resetState");
+          this.$store.commit("Cart/resetCart");
         }
       }
     },
