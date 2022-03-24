@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils";
-import ItemCounter from "@/common/components/ItemCounter";
+import UIItemCounter from "@/common/components/UIItemCounter";
 
-describe("ItemCounter with min values", () => {
+describe("UIItemCounter with min values", () => {
   let wrapper;
   const propsData = {
     min: 0,
@@ -11,7 +11,7 @@ describe("ItemCounter with min values", () => {
   const localVue = createLocalVue();
 
   const createComponent = (options) => {
-    wrapper = mount(ItemCounter, options);
+    wrapper = mount(UIItemCounter, options);
   };
 
   beforeEach(() => {
@@ -21,10 +21,6 @@ describe("ItemCounter with min values", () => {
   afterEach(() => {
     wrapper.destroy();
   });
-
-  // const minus_button = wrapper.find(".counter__button--minus");
-  // const plus_button = wrapper.find(".counter__button--plus");
-  // const input = wrapper.find(".counter__input");
 
   it("Minus button is disabled", () => {
     expect(wrapper.find(".counter__button--minus").element.disabled).toBe(true);
@@ -48,7 +44,7 @@ describe("ItemCounter with min values", () => {
   });
 });
 
-describe("ItemCounter with max values", () => {
+describe("UIItemCounter with max values", () => {
   let wrapper;
   const propsData = {
     min: 0,
@@ -59,7 +55,7 @@ describe("ItemCounter with max values", () => {
   const localVue = createLocalVue();
 
   const createComponent = (options) => {
-    wrapper = mount(ItemCounter, options);
+    wrapper = mount(UIItemCounter, options);
   };
 
   beforeEach(() => {

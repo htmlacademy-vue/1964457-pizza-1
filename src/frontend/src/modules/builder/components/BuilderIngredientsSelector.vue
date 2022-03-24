@@ -13,7 +13,7 @@
             :sauceid="sauce.id"
             :key="sauce.id"
           >
-            <RadioButton
+            <UIRadioButton
               name="sauce"
               :value="getInputValueForSauce(sauce.name)"
               :checked="sauce.id === selectedSauce.id"
@@ -32,11 +32,11 @@
               :key="ingredient.id"
               class="ingredients__item"
             >
-              <SelectorItem
+              <UISelectorItem
                 :ingredient="ingredient"
                 :draggable="ingredients[ingredient.id].count < 3"
               />
-              <ItemCounter
+              <UIItemCounter
                 :max="3"
                 :min="0"
                 :current="ingredients[ingredient.id].count"
@@ -54,16 +54,16 @@
 <script>
 import { mapState } from "vuex";
 
-import RadioButton from "@/common/components/RadioButton";
-import SelectorItem from "@/common/components/SelectorItem";
-import ItemCounter from "@/common/components/ItemCounter";
+import UIRadioButton from "@/common/components/UIRadioButton";
+import UISelectorItem from "@/common/components/UISelectorItem";
+import UIItemCounter from "@/common/components/UIItemCounter";
 
 export default {
   name: "BuilderIngredientsSelector",
   components: {
-    RadioButton,
-    SelectorItem,
-    ItemCounter,
+    UIRadioButton,
+    UISelectorItem,
+    UIItemCounter,
   },
   methods: {
     getInputValueForSauce(sauceName) {

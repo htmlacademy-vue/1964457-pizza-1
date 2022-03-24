@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils";
-import SelectorItem from "@/common/components/SelectorItem";
+import UISelectorItem from "@/common/components/UISelectorItem";
 
-describe("SelectorItem", () => {
+describe("UISelectorItem", () => {
   let wrapper;
   const propsData = {
     ingredient: {
@@ -17,7 +17,7 @@ describe("SelectorItem", () => {
   const localVue = createLocalVue();
 
   const createComponent = (options) => {
-    wrapper = mount(SelectorItem, options);
+    wrapper = mount(UISelectorItem, options);
   };
 
   beforeEach(() => {

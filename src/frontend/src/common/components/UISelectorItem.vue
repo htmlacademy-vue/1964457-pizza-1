@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "SelectorItem",
+  name: "UISelectorItem",
   props: {
     ingredient: {
       type: Object,
