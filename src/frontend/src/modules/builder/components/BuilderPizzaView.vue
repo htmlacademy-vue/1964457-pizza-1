@@ -24,7 +24,7 @@
               v-for="ingredientClass in ingredientClasses"
               :class="ingredientClass"
               :key="ingredientClass"
-            ></div>
+            />
           </transition-group>
         </div>
       </div>
