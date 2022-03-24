@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <BuilderPriceCounter :pizzaName="pizzaName" @addToCart="addToCart" />
+    <BuilderPriceCounter :pizza-name="pizzaName" @addToCart="addToCart" />
   </div>
 </template>
 

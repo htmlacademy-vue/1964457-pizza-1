@@ -12,7 +12,7 @@
           :class="getClassNameForDiameter(size.name)"
         >
           <UIRadioButton
-            className="visually-hidden"
+            class-name="visually-hidden"
             name="diameter"
             :value="getInputValueForDiameter(size.name)"
             :checked="size.id === selectedSize.id"

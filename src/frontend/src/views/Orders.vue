@@ -4,7 +4,7 @@
       <h1 class="title title--big">История заказов</h1>
     </div>
     <section v-for="order in orders" :key="order.id" class="sheet order">
-      <OrdersHeader :orderId="order.id" :orderPrice="getOrderPrice(order)" />
+      <OrdersHeader :order-id="order.id" :order-price="getOrderPrice(order)" />
       <ul class="order__list">
         <OrdersPizza
           v-for="pizza in order.orderPizzas"

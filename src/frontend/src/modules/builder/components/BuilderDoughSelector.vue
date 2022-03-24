@@ -11,7 +11,7 @@
           :class="getClassNameForDough(d.name)"
         >
           <UIRadioButton
-            className="visually-hidden"
+            class-name="visually-hidden"
             name="dough"
             :value="getInputValueForDough(d.name)"
             :checked="selectedDough.id === d.id"
