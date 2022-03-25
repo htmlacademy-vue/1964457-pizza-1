@@ -37,17 +37,25 @@ export default {
     pizza: { type: Object, required: true },
   },
   computed: {
-    ...mapState("Builder", ["dough", "sizes", "sauces", "ingredientsArray"]),
+    ...mapState("Builder", [
+      "dough",
+      "sizes",
+      "sauces",
+      "ingredients",
+      "ingredientsArray",
+    ]),
     ingredientIds() {
       return this.pizza.ingredients.map((e) => e.ingredientId);
     },
-    ingredients() {
+    selectedIngredients() {
       return this.ingredientsArray.filter((e) =>
         this.ingredientIds.includes(e.id)
       );
     },
     ingredients_lower() {
-      return this.ingredients.map((e) => e.name.toLowerCase()).join(", ");
+      return this.selectedIngredients
+        .map((e) => e.name.toLowerCase())
+        .join(", ");
     },
     sauce() {
       return this.sauces.find((e) => this.pizza.sauceId === e.id);
@@ -59,10 +67,11 @@ export default {
       return this.dough.find((e) => this.pizza.doughId === e.id);
     },
     pizzaPrice() {
+      const ingredientsPrice = this.pizza.ingredients
+        .map((e) => this.ingredients[e.ingredientId].price * e.quantity)
+        .reduce((a, b) => a + b, 0);
       const price =
-        (this.ingredients.map((e) => e.price).reduce((a, b) => a + b, 0) +
-          this.pizzaDough.price +
-          this.sauce.price) *
+        (ingredientsPrice + this.pizzaDough.price + this.sauce.price) *
         this.size.multiplier;
       return this.pizza.quantity > 1
         ? `${this.pizza.quantity}x${price} ₽`
