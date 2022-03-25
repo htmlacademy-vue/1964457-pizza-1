@@ -13,7 +13,7 @@
     <div class="header__cart">
       <router-link to="/cart"> {{ cartPrice }} ₽</router-link>
     </div>
-    <div v-if="isAuthenticated" key="header_user" class="header__user">
+    <div v-if="isAuthenticated" key="user_authenticated" class="header__user">
       <router-link to="/profile">
         <picture>
           <img :src="user.avatar" :alt="user.name" width="32" height="32" />
@@ -22,7 +22,7 @@
       </router-link>
       <a href="#" @click="logout" class="header__logout"><span>Выйти</span></a>
     </div>
-    <div v-else key="header_user" class="header__user">
+    <div v-else key="user_not_authenticated" class="header__user">
       <router-link to="/login" class="header__login">
         <span>Войти</span>
       </router-link>
