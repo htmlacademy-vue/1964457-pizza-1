@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "RadioButton",
+  name: "UIRadioButton",
   props: {
     className: {
       type: String,

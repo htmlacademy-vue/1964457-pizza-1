@@ -11,8 +11,8 @@
           class="diameter__input"
           :class="getClassNameForDiameter(size.name)"
         >
-          <RadioButton
-            className="visually-hidden"
+          <UIRadioButton
+            class-name="visually-hidden"
             name="diameter"
             :value="getInputValueForDiameter(size.name)"
             :checked="size.id === selectedSize.id"
@@ -27,12 +27,12 @@
 
 <script>
 import { mapState } from "vuex";
-import RadioButton from "@/common/components/RadioButton";
+import UIRadioButton from "@/common/components/UIRadioButton";
 
 export default {
   name: "BuilderSizeSelector",
   components: {
-    RadioButton,
+    UIRadioButton,
   },
   computed: {
     ...mapState("Builder", ["sizes", "selectedSize"]),

@@ -4,7 +4,7 @@
       <h1 class="title title--big">История заказов</h1>
     </div>
     <section v-for="order in orders" :key="order.id" class="sheet order">
-      <OrdersHeader :orderId="order.id" :orderPrice="getOrderPrice(order)" />
+      <OrdersHeader :order-id="order.id" :order-price="getOrderPrice(order)" />
       <ul class="order__list">
         <OrdersPizza
           v-for="pizza in order.orderPizzas"
@@ -43,10 +43,8 @@ export default {
       const sauce = this.sauces.find((e) => pizza.sauceId === e.id);
       const size = this.sizes.find((e) => pizza.sizeId === e.id);
       const pizzaDough = this.dough.find((e) => pizza.doughId === e.id);
-      const ingredientIds = pizza.ingredients.map((e) => e.ingredientId);
-      const ingredientsPrice = this.ingredientsArray
-        .filter((e) => ingredientIds.includes(e.id))
-        .map((e) => e.price)
+      const ingredientsPrice = pizza.ingredients
+        .map((e) => this.ingredients[e.ingredientId].price * e.quantity)
         .reduce((a, b) => a + b, 0);
       return (
         (ingredientsPrice + pizzaDough.price + sauce.price) *
@@ -83,7 +81,7 @@ export default {
   },
   computed: {
     ...mapState("Orders", ["orders"]),
-    ...mapState("Builder", ["dough", "sizes", "sauces", "ingredientsArray"]),
+    ...mapState("Builder", ["dough", "sizes", "sauces", "ingredients"]),
     ...mapState("Cart", ["additionalItems"]),
   },
 };

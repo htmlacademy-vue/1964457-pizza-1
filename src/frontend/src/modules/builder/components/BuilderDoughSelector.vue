@@ -10,8 +10,8 @@
           class="dough__input"
           :class="getClassNameForDough(d.name)"
         >
-          <RadioButton
-            className="visually-hidden"
+          <UIRadioButton
+            class-name="visually-hidden"
             name="dough"
             :value="getInputValueForDough(d.name)"
             :checked="selectedDough.id === d.id"
@@ -27,12 +27,12 @@
 
 <script>
 import { mapState } from "vuex";
-import RadioButton from "@/common/components/RadioButton";
+import UIRadioButton from "@/common/components/UIRadioButton";
 
 export default {
   name: "BuilderDoughSelector",
   components: {
-    RadioButton,
+    UIRadioButton,
   },
   computed: {
     ...mapState("Builder", ["selectedDough", "dough"]),

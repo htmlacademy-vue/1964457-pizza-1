@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: "ItemCounter",
+  name: "UIItemCounter",
   props: {
     max: {
       type: Number,
