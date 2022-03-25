@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils";
-import RadioButton from "@/common/components/RadioButton";
+import UIRadioButton from "@/common/components/UIRadioButton";
 
-describe("RadioButton", () => {
+describe("UIRadioButton", () => {
   let wrapper;
   const propsData = {
     className: "test-class",
@@ -11,7 +11,7 @@ describe("RadioButton", () => {
   const localVue = createLocalVue();
 
   const createComponent = (options) => {
-    wrapper = mount(RadioButton, options);
+    wrapper = mount(UIRadioButton, options);
   };
 
   beforeEach(() => {

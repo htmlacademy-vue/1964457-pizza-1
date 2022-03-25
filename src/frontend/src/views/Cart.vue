@@ -22,7 +22,7 @@
             <CartAddressForm />
           </div>
         </div>
-        <transition name="fade" v-on:leave="$router.push(`/`)">
+        <transition name="fade" @leave="$router.push(`/`)">
           <CartPopup v-if="showPopup" @close="resetState" />
         </transition>
       </main>

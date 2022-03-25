@@ -24,13 +24,13 @@
               v-for="ingredientClass in ingredientClasses"
               :class="ingredientClass"
               :key="ingredientClass"
-            ></div>
+            />
           </transition-group>
         </div>
       </div>
     </div>
 
-    <BuilderPriceCounter :pizzaName="pizzaName" @addToCart="addToCart" />
+    <BuilderPriceCounter :pizza-name="pizzaName" @addToCart="addToCart" />
   </div>
 </template>
 
